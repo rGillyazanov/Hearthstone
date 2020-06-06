@@ -1,14 +1,14 @@
 <?php
 
-namespace Library\CardsCollectible\Seeder;
+namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
-use Library\CardsCollectible\CardsDataFile;
+use App\DataBase\CardsCollectible\CardsDataFile;
+use App\Models\Hearthstone\CardMechanic;
 
 class MechanicsField extends CardsDataFile
 {
     /**
-     * Заполняет табилцу MechanicsField всеми механиками карт, которые доступны в json файле
+     * Заполняет табилцу card_mechanics всеми механиками карт, которые доступны в json файле
      */
     public function insertMechanicsField()
     {
@@ -17,10 +17,10 @@ class MechanicsField extends CardsDataFile
          */
         for ($i = 0; $i < count($this->data); $i++)
         {
-            $cardIdInDB = $this->checkFieldId('cards', 'name', $this->data[$i]->name);
-
             if (isset($this->data[$i]->mechanics))
             {
+                $cardIdInDB = $this->checkFieldId('cards', 'name', $this->data[$i]->name);
+
                 for ($j = 0; $j < count($this->data[$i]->mechanics); $j++)
                 {
                     /**
@@ -32,11 +32,10 @@ class MechanicsField extends CardsDataFile
 
                     $mechanicIdInDB = $this->checkFieldId('mechanics', 'name', $mechanics);
 
-                    DB::insert('INSERT INTO `card_mechanics`(`card_id`, `mechanics_id`) VALUES (?,?)',
-                        [
-                            $cardIdInDB, $mechanicIdInDB
-                        ]
-                    );
+                    CardMechanic::create([
+                        'card_id' => $cardIdInDB,
+                        'mechanics_id' => $mechanicIdInDB
+                    ]);
                 }
             }
         }

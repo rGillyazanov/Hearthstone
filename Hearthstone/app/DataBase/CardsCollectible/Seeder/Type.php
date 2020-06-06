@@ -1,9 +1,9 @@
 <?php
 
-namespace Library\CardsCollectible\Seeder;
+namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
-use Library\CardsCollectible\CardsDataFile;
+use App\DataBase\CardsCollectible\CardsDataFile;
+use App\Models\Hearthstone\Type as TypeModel;
 
 class Type extends CardsDataFile
 {
@@ -21,7 +21,7 @@ class Type extends CardsDataFile
         {
             if (isset($this->data[$id]->type))
             {
-                if (in_array($this->data[$id]->type, $typeList) == false)
+                if (!in_array($this->data[$id]->type, $typeList))
                 {
                     // Добавляем качество в массив
                     array_push($typeList, $this->data[$id]->type);
@@ -32,13 +32,11 @@ class Type extends CardsDataFile
         /**
          * Заполняем таблицу
          */
-        for ($typeId = 0; $typeId < count($typeList); $typeId++)
+        foreach ($typeList as $type)
         {
-            DB::insert('INSERT INTO `types`(`name`) VALUES (?)',
-                [
-                    $typeList[$typeId]
-                ]
-            );
+            TypeModel::create([
+                'name' => $type
+            ]);
         }
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Library\CardsCollectible\Seeder;
+namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
-use Library\CardsCollectible\CardsDataFile;
+use App\DataBase\CardsCollectible\CardsDataFile;
+use App\Models\Hearthstone\Race as RaceModel;
 
 class Race extends CardsDataFile
 {
@@ -21,7 +21,7 @@ class Race extends CardsDataFile
         {
             if (isset($this->data[$id]->race))
             {
-                if (in_array($this->data[$id]->race, $raceList) == false)
+                if (!in_array($this->data[$id]->race, $raceList))
                 {
                     // Добавляем расу в массив
                     array_push($raceList, $this->data[$id]->race);
@@ -32,13 +32,11 @@ class Race extends CardsDataFile
         /**
          * Заполняем таблицу
          */
-        for ($raceId = 0; $raceId < count($raceList); $raceId++)
+        foreach ($raceList as $race)
         {
-            DB::insert('INSERT INTO `races`(`name`) VALUES (?)',
-                [
-                    $raceList[$raceId]
-                ]
-            );
+            RaceModel::create([
+                'name' => $race
+            ]);
         }
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Library\CardsCollectible\Seeder;
+namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
-use Library\CardsCollectible\CardsDataFile;
+use App\DataBase\CardsCollectible\CardsDataFile;
+use App\Models\Hearthstone\Packset as PackSetModel;
 
 class Packset extends CardsDataFile
 {
@@ -21,7 +21,7 @@ class Packset extends CardsDataFile
         {
             if (isset($this->data[$id]->set))
             {
-                if (in_array($this->data[$id]->set, $packsetList) == false)
+                if (!in_array($this->data[$id]->set, $packsetList))
                 {
                     // Добавляем набор в массив
                     array_push($packsetList, $this->data[$id]->set);
@@ -32,13 +32,11 @@ class Packset extends CardsDataFile
         /**
          * Заполняем таблицу
          */
-        for ($packsetId = 0; $packsetId < count($packsetList); $packsetId++)
+        foreach ($packsetList as $packSet)
         {
-            DB::insert('INSERT INTO `packsets`(`name`) VALUES (?)',
-                [
-                    $packsetList[$packsetId]
-                ]
-            );
+            PackSetModel::create([
+                'name' => $packSet
+            ]);
         }
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Library\CardsCollectible\Seeder;
+namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
-use Library\CardsCollectible\CardsDataFile;
+use App\DataBase\CardsCollectible\CardsDataFile;
+use App\Models\Hearthstone\Mechanic;
 
 class Mechanics extends CardsDataFile
 {
@@ -23,7 +23,7 @@ class Mechanics extends CardsDataFile
             {
                 for ($j = 0; $j < count($this->data[$i]->mechanics); $j++)
                 {
-                    if (in_array($this->data[$i]->mechanics[$j], $mechanics_list) == false)
+                    if (!in_array($this->data[$i]->mechanics[$j], $mechanics_list))
                     {
                         // Добавляем механику
                         array_push($mechanics_list, $this->data[$i]->mechanics[$j]);
@@ -35,13 +35,11 @@ class Mechanics extends CardsDataFile
         /**
          * Заполняем таблицу
          */
-        for ($mechanicId = 0; $mechanicId < count($mechanics_list); $mechanicId++)
+        foreach ($mechanics_list as $mechanics)
         {
-            DB::insert('INSERT INTO `mechanics`(`name`) VALUES (?)',
-                [
-                    $mechanics_list[$mechanicId]
-                ]
-            );
+            Mechanic::create([
+                'name' => $mechanics
+            ]);
         }
     }
 }

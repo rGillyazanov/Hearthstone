@@ -10,7 +10,7 @@ abstract class CardsDataFile
      * Путь до json файла со списком карт
      * @var string
      */
-    protected $path;
+    protected $path = "https://api.hearthstonejson.com/v1/48705/ruRU/cards.collectible.json";
 
     /**
      * Массив данных из json файла
@@ -18,9 +18,8 @@ abstract class CardsDataFile
      */
     protected $data;
 
-    function __construct(string $path)
+    function __construct()
     {
-        $this->path = $path;
         $this->data = $this->getData();
     }
 
@@ -35,7 +34,14 @@ abstract class CardsDataFile
             return null;
         }
 
-        $file = file_get_contents($this->path);
+        $arrContextOptions=array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        );
+
+        $file = @file_get_contents($this->path, false, stream_context_create($arrContextOptions));
 
         return json_decode($file);
     }
@@ -43,7 +49,7 @@ abstract class CardsDataFile
     /**
      * Проверяет значение из Json файла на существование
      * @param $value
-     * @return null
+     * @return string
      */
     protected function getValueFromJson($value)
     {
@@ -51,7 +57,7 @@ abstract class CardsDataFile
             return $value;
         }
 
-        return null;
+        return "";
     }
 
     /**

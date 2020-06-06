@@ -1,9 +1,9 @@
 <?php
 
-namespace Library\CardsCollectible\Seeder;
+namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
-use Library\CardsCollectible\CardsDataFile;
+use App\DataBase\CardsCollectible\CardsDataFile;
+use App\Models\Hearthstone\Rarity as RarityModel;
 
 class Rarity extends CardsDataFile
 {
@@ -32,13 +32,11 @@ class Rarity extends CardsDataFile
         /**
          * Заполняем таблицу
          */
-        for ($rarityId = 0; $rarityId < count($rarityList); $rarityId++)
+        foreach ($rarityList as $rarity)
         {
-            DB::insert('INSERT INTO `rarities`(`name`) VALUES (?)',
-                [
-                    $rarityList[$rarityId]
-                ]
-            );
+            RarityModel::create([
+                'name' => $rarity
+            ]);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\DataBase\CardsCollectible\Seeder;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Hearthstone\Hero;
 use App\DataBase\CardsCollectible\CardsDataFile;
 
 class Heroes extends CardsDataFile
@@ -21,7 +21,7 @@ class Heroes extends CardsDataFile
         {
             if (isset($this->data[$id]->cardClass))
             {
-                if (in_array($this->data[$id]->cardClass, $heroesList) == false)
+                if (!in_array($this->data[$id]->cardClass, $heroesList))
                 {
                     // Добавляем героев в массив
                     array_push($heroesList, $this->data[$id]->cardClass);
@@ -32,13 +32,11 @@ class Heroes extends CardsDataFile
         /**
          * Заполняем таблицу
          */
-        for ($heroesId = 0; $heroesId < count($heroesList); $heroesId++)
+        foreach ($heroesList as $hero)
         {
-            DB::insert('INSERT INTO `heroes`(`name`) VALUES (?)',
-                [
-                    $heroesList[$heroesId]
-                ]
-            );
+            Hero::create([
+                'name' => $hero
+            ]);
         }
     }
 }
