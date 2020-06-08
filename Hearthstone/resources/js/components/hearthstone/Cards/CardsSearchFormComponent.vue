@@ -1,112 +1,147 @@
 <template>
     <div>
-        <div class="form-group">
-            <label for="nameCard">Название</label>
-            <input type="text" class="form-control" id="cardName" aria-describedby="nameCard" placeholder="Введите название карты">
+        <div class="form-group search-form-fields">
+            <card-search-name-component v-model="searchFields.cardName">Поиск по названию карты</card-search-name-component>
+            <select-search-form-component
+                    v-model.number="searchFields.heroes"
+                    :api-link="apiLinks.heroes"
+                    placeholder="Герои"
+            >
+                Герои
+            </select-search-form-component>
+            <select-search-form-component
+                    v-model.number="searchFields.rarities"
+                    :api-link="apiLinks.rarities"
+                    placeholder="Качество карт"
+            >
+                Качество карт
+            </select-search-form-component>
+            <select-search-form-component
+                    v-model.number="searchFields.types"
+                    :api-link="apiLinks.types"
+                    placeholder="Типы карт"
+            >
+                Типы карт
+            </select-search-form-component>
+            <select-search-form-component
+                    v-model.number="searchFields.races"
+                    :api-link="apiLinks.races"
+                    placeholder="Расы карт"
+            >
+                Расы карт
+            </select-search-form-component>
+            <select-search-form-component
+                    v-model.number="searchFields.mechanics"
+                    :api-link="apiLinks.mechanics"
+                    placeholder="Механики карт"
+            >
+                Механики карт
+            </select-search-form-component>
+            <select-search-form-component
+                    v-model.number="searchFields.packSets"
+                    :api-link="apiLinks.packSets"
+                    placeholder="Наборы карт"
+            >
+                Наборы карт
+            </select-search-form-component>
         </div>
-        <div>
-            <div class="form-group">
-                <label for="classHeroes">Класс</label>
-                <select class="form-control" id="classHeroes" name="playerClass">
-                    <option>Все</option>
-                    <!--            @foreach ($heroes as $hero)-->
-                    <!--            <option value="{{ $hero->id }}">{{ $hero->name }}</option>-->
-                    <!--            @endforeach-->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="rarityCards">Качество</label>
-                <select class="form-control" id="rarityCards" name="rarity">
-                    <option>Все</option>
-                    <!--            @foreach ($rarities as $rarity)-->
-                    <!--            <option value="{{ $rarity->id }}">{{ $rarity->name }}</option>-->
-                    <!--            @endforeach-->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="typeCards">Тип</label>
-                <select class="form-control" id="typeCards" name="type">
-                    <option>Все</option>
-                    <!--            @foreach ($types as $type)-->
-                    <!--            <option value="{{ $type->id }}">{{ $type->name }}</option>-->
-                    <!--            @endforeach-->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="rarityCards">Раса</label>
-                <select class="form-control" id="rarityCards" name="race">
-                    <option>Все</option>
-                    <!--            @foreach ($races as $race)-->
-                    <!--            <option value="{{ $race->id }}">{{ $race->name }}</option>-->
-                    <!--            @endforeach-->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="mechanicsCards">Механика</label>
-                <select class="form-control" id="mechanicsCards" name="mechanics_id">
-                    <option>Все</option>
-                    <!--@foreach ($mechanics as $mechanic)
-                    <option value="{{ $mechanic->id }}">{{ $mechanic->name }}</option>
-                    @endforeach-->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="packsetCards">Набор</label>
-                <select class="form-control" id="packsetCards" name="packset">
-                    <option>Все</option>
-                    <!--@foreach ($packsets as $packset)
-                    <option value="{{ $packset->id }}">{{ $packset->name }}</option>
-                    @endforeach-->
-                </select>
-            </div>
-            <div class="form-group border-mana-attack-health mt-3">
-                <div class="input-group mt-3">
-                    <input type="range" class="custom-range" min="0" max="10" id="rangeMana" name="cost" aria-describedby="manaHelp">
-                    <small id="manaHelp" class="form-text text-muted">
-                        Мана: <span id="manacost"></span>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="true" name="manacheck" id="manacheck">
-                            <label class="form-check-label" style="margin-top: 2px" for="manacheck">
-                                Поиск по мане
-                            </label>
-                        </div>
-                    </small>
-                </div>
-                <div class="input-group mt-2">
-                    <input type="range" class="custom-range" min="0" max="10" id="rangeAttack" name="attack" aria-describedby="attackHelp">
-                    <small id="attackHelp" class="form-text text-muted">
-                        Атака: <span id="attack"></span>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="true" name="attackcheck" id="attackcheck">
-                            <label class="form-check-label" style="margin-top: 2px" for="attackheck">
-                                Поиск по атаке
-                            </label>
-                        </div>
-                    </small>
-                </div>
-                <div class="input-group mt-3">
-                    <input type="range" class="custom-range" min="1" max="10" id="rangeHealth" name="health" aria-describedby="healthHelp">
-                    <small id="healthHelp" class="form-text text-muted">
-                        Здоровье: <span id="health"></span>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="true" name="healthcheck" id="healthcheck">
-                            <label class="form-check-label" style="margin-top: 2px" for="healthcheck">
-                                Поиск по здоровью
-                            </label>
-                        </div>
-                    </small>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-success btn-block">Найти</button>
+        <div class="form-group border-mana-attack-health mt-3">
+            <span class="font-weight-bold">Поиск по атрибутам</span>
+            <attribute-card-search-form-component
+                    v-model.number="searchFields.attributes.mana"
+                    :checked="searchFields.attributes.manaCheckbox"
+                    @change="searchFields.attributes.manaCheckbox = $event"
+            >
+                <span slot="name-attribute">Мана</span>
+                <span slot="search-attribute">Поиск по мане</span>
+            </attribute-card-search-form-component>
+            <attribute-card-search-form-component
+                    v-model.number="searchFields.attributes.attack"
+                    :checked="searchFields.attributes.attackCheckbox"
+                    @change="searchFields.attributes.attackCheckbox = $event"
+            >
+                <span slot="name-attribute">Атака</span>
+                <span slot="search-attribute">Поиск по атаке</span>
+            </attribute-card-search-form-component>
+            <attribute-card-search-form-component
+                    v-model.number="searchFields.attributes.health"
+                    :checked="searchFields.attributes.healthCheckbox"
+                    @change="searchFields.attributes.healthCheckbox = $event"
+            >
+                <span slot="name-attribute">Здоровье</span>
+                <span slot="search-attribute">Поиск по здоровью</span>
+            </attribute-card-search-form-component>
         </div>
+        <button type="submit" class="btn btn-success btn-block" @click="searchCards">Найти</button>
     </div>
 </template>
 
 <script>
+    import CardSearchNameComponent from "./CardsSearchFormComponents/CardSearchNameComponent";
+    import SelectSearchFormComponent from "./CardsSearchFormComponents/SelectSearchFormComponent";
+    import AttributeCardSearchFormComponent from "./CardsSearchFormComponents/AttributeCardSearchFormComponent";
+
     export default {
+        data() {
+            return {
+                searchFields: {
+                    cardName: "",
+                    heroes: null,
+                    rarities: null,
+                    types: null,
+                    races: null,
+                    mechanics: null,
+                    packSets: null,
+                    attributes: {
+                        mana: 5,
+                        manaCheckbox: false,
+                        attack: 5,
+                        attackCheckbox: false,
+                        health: 5,
+                        healthCheckbox: false,
+                    }
+                },
+                apiLinks: {
+                    heroes: '/api/heroes',
+                    rarities: '/api/rarities',
+                    types: '/api/types',
+                    races: '/api/races',
+                    mechanics: '/api/mechanics',
+                    packSets: '/api/packsets',
+                }
+            }
+        },
+        components: {
+            AttributeCardSearchFormComponent,
+            CardSearchNameComponent,
+            SelectSearchFormComponent
+        },
+        methods: {
+            searchCards() {
+                axios.get('/api/cards/search', {
+                    params: {
+                        playerClass: this.searchFields.heroes,
+                        rarity: this.searchFields.rarities,
+                        type: this.searchFields.types,
+                        race: this.searchFields.races,
+                        packset: this.searchFields.packSets,
+                        cost: this.searchFields.attributes.manaCheckbox ? this.searchFields.attributes.mana : null,
+                        attack: this.searchFields.attributes.attackCheckbox ? this.searchFields.attributes.attack : null,
+                        health: this.searchFields.attributes.healthCheckbox ? this.searchFields.attributes.health : null,
+                        mechanics: this.searchFields.mechanics
+                    }
+                }).then(response => {
+                    this.$emit("getSearchResult", response.data);
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+    .search-form-fields .select-field:not(:first-child) {
+        margin-top: 15px;
+    }
 </style>

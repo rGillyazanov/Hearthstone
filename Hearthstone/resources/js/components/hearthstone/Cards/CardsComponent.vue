@@ -6,13 +6,13 @@
                     <div class="col-9">
                         <div class="row">
                             <div v-for="card in cards.data" :key="card.id" class="col-4">
-                                <img :src="getImageCard(card.id_card)" height="300" :alt="card.name" class="image-card-rounded">
+                                <img :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="image-card-rounded">
                             </div>
                         </div>
                         <pagination :limit="2" align="center" :data="cards" @pagination-change-page="getCards"></pagination>
                     </div>
-                    <div class="col-3 mt-5">
-                        <cards-search-form></cards-search-form>
+                    <div class="col-3 mt-4">
+                        <cards-search-form @getSearchResult="cards = $event.data"></cards-search-form>
                     </div>
                 </div>
             </div>
@@ -31,18 +31,19 @@
             }
         },
         mounted() {
-            axios.get("/api/cards").then(response => {
+            axios.get('/api/cards').then(response => {
                 this.cards = response.data.data;
-            })
+            });
         },
         methods: {
             getCards(page = 1) {
-                axios.get('/api/cards?page=' + page).then(response => {
+                // Ссылка на следуюшую страницу, такая же как у первой, но меняется page
+                axios.get(this.cards.first_page_url.match(/(.*?)page=/g) + page).then(response => {
                     this.cards = response.data.data;
                 });
             },
-            getImageCard(id) {
-                return "https://art.hearthstonejson.com/v1/render/latest/ruRU/256x/" + id + ".png";
+            setImageCard(id_card) {
+                return `https://art.hearthstonejson.com/v1/render/latest/ruRU/256x/${id_card}.png`;
             }
         },
         components: {

@@ -5,7 +5,6 @@
  */
 
 import CardsComponent from "./components/hearthstone/Cards/CardsComponent";
-import vSelect from "vue-select";
 import VueRouter from 'vue-router';
 
 require('./bootstrap');
@@ -22,7 +21,6 @@ Vue.use(VueRouter);
  */
 
 Vue.component('cards-component', CardsComponent);
-Vue.component('v-select', vSelect)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
