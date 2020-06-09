@@ -28,7 +28,7 @@ class CardService
      */
     public function getCardsWithPaginate()
     {
-        return Card::query()->select($this->select)->paginate($this->perPage);
+        return Card::select($this->select)->paginate($this->perPage);
     }
 
     /**

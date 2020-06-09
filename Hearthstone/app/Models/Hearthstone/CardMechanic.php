@@ -19,4 +19,9 @@ class CardMechanic extends Model
     {
         return $this->belongsTo(Mechanic::class, "mechanics_id");
     }
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'card_id');
+    }
 }

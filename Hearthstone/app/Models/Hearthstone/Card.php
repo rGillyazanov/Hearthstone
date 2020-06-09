@@ -27,9 +27,10 @@ class Card extends Model
             unset($parameters['mechanics']);
 
             // В запрос добавляются все условия поиска кроме mechanics
-            $query = $this->queryWhereKeyValue($query, $parameters);
+            $query = CardMechanic::select(['id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanics.card_id')->where('mechanics_id', $mechanics_id);
+            $this->queryWhereKeyValue($query, $parameters);
 
-            return $query->mechanics()->where('mechanics_id', $mechanics_id);
+            return $query;
         }
 
         return $this->queryWhereKeyValue($query, $parameters);
@@ -77,6 +78,6 @@ class Card extends Model
 
     public function mechanics()
     {
-        return $this->belongsToMany(CardMechanic::class, 'card_mechanics', 'card_id', 'mechanics_id', 'id', 'id');
+        return $this->belongsToMany(CardMechanic::class, 'card_mechanics', 'mechanics_id', 'card_id');
     }
 }
