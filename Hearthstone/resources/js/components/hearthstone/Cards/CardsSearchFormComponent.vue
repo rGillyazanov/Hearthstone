@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="form-group search-form-fields">
-            <card-search-name-component v-model="searchFields.cardName">Поиск по названию карты</card-search-name-component>
+            <card-search-name-component v-model.lazy="searchFields.cardName" @input="searchCardsOfName">
+                <span slot="label">Поиск по названию карты</span>
+            </card-search-name-component>
             <select-search-form-component
                     v-model.number="searchFields.heroes"
                     :api-link="apiLinks.heroes"
@@ -133,7 +135,18 @@
                 }).then(response => {
                     this.$emit("getSearchResult", response.data);
                 }).catch(error => {
-                    console.log(error);
+                    console.log(error.response.data.errors);
+                });
+            },
+            searchCardsOfName() {
+                axios.get('/api/cards/search/name', {
+                    params: {
+                        name: this.searchFields.cardName
+                    }
+                }).then(response => {
+                    this.$emit("getSearchResult", response.data);
+                }).catch(error => {
+                    console.log(error.response.data.errors);
                 });
             }
         }

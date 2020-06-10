@@ -41,4 +41,14 @@ class CardService
         // search - scopeSearch в модели Card
         return Card::select($this->select)->search($parametersSearch)->paginate($this->perPage);
     }
+
+    /**
+     * Возвращает коллекцию карт по названию карты
+     * @param $cardName
+     * @return mixed
+     */
+    public function getCardsWithNameParameter($cardName)
+    {
+        return Card::where('name', 'LIKE', '%'.$cardName.'%')->paginate($this->perPage);
+    }
 }

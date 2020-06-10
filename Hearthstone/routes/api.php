@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::apiResource('cards', 'Api\v1\Hearthstone\Cards\CardController')->only('index');
 Route::get('cards/search', 'Api\v1\Hearthstone\Cards\SearchCardController@search')->name('cards.search');
+Route::get('cards/search/name', 'Api\v1\Hearthstone\Cards\SearchCardController@searchOfName')->name('cards.search');
 
 Route::apiResource('heroes', 'Api\v1\Hearthstone\Heroes\HeroController')->only('index');
 Route::apiResource('rarities', 'Api\v1\Hearthstone\Rarities\RarityController')->only('index');

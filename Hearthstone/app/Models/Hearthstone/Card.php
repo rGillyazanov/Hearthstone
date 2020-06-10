@@ -26,14 +26,13 @@ class Card extends Model
             $mechanics_id = $parameters['mechanics'];
             unset($parameters['mechanics']);
 
-            // В запрос добавляются все условия поиска кроме mechanics
             $query = CardMechanic::select(['id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanics.card_id')->where('mechanics_id', $mechanics_id);
-            $this->queryWhereKeyValue($query, $parameters);
+            $this->queryWhereKeyValue($query, $parameters)->where('playerClass', '!=', 4);
 
             return $query;
         }
 
-        return $this->queryWhereKeyValue($query, $parameters);
+        return $this->queryWhereKeyValue($query, $parameters)->where('playerClass', '!=', 4);
     }
 
     /**
