@@ -1,17 +1,19 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="row">
-                    <div class="col-9">
+                <div class="row d-flex flex-sm-wrap-reverse">
+                    <div class="col-lg-9 col-xs-12 d-flex flex-column">
                         <div class="row">
-                            <div v-for="card in cards.data" :key="card.id" class="col-4">
-                                <img :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="image-card-rounded">
+                            <div v-for="card in cards.data" :key="card.id" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center">
+                                <router-link :to="{name: 'Card', params: {id: card.id}}">
+                                    <img :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="image-card-rounded">
+                                </router-link>
                             </div>
                         </div>
                         <pagination :limit="2" align="center" :data="cards" @pagination-change-page="getCards"></pagination>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-lg-3 col-xs-12 mt-4">
                         <cards-search-form @getSearchResult="cards = $event.data"></cards-search-form>
                     </div>
                 </div>

@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::apiResource('cards', 'Api\v1\Hearthstone\Cards\CardController')->only('index');
+Route::apiResource('cards', 'Api\v1\Hearthstone\Cards\CardsController')->only('index');
 Route::get('cards/search', 'Api\v1\Hearthstone\Cards\SearchCardController@search')->name('cards.search');
 Route::get('cards/search/name', 'Api\v1\Hearthstone\Cards\SearchCardController@searchOfName')->name('cards.search');
+Route::get('card/{id}', 'Api\v1\Hearthstone\Cards\Card\CardController@index')->name('card');
 
 Route::apiResource('heroes', 'Api\v1\Hearthstone\Heroes\HeroController')->only('index');
 Route::apiResource('rarities', 'Api\v1\Hearthstone\Rarities\RarityController')->only('index');

@@ -22,6 +22,11 @@ class CardService
         'name'
     ];
 
+    public function getCard($id)
+    {
+        return Card::select('name')->where('id', $id)->first();
+    }
+
     /**
      * Получаем коллекцию всех карт для отображения с пагинацией.
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -49,6 +54,6 @@ class CardService
      */
     public function getCardsWithNameParameter($cardName)
     {
-        return Card::where('name', 'LIKE', '%'.$cardName.'%')->paginate($this->perPage);
+        return Card::select($this->select)->where('name', 'LIKE', '%'.$cardName.'%')->paginate($this->perPage);
     }
 }

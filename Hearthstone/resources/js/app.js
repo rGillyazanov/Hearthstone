@@ -7,6 +7,7 @@
 import CardsComponent from "./components/hearthstone/Cards/CardsComponent";
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
+import router from "./router";
 
 require('./bootstrap');
 
@@ -31,4 +32,5 @@ Vue.component('cards-component', CardsComponent);
 
 const app = new Vue({
     el: '#app',
+    router
 });
