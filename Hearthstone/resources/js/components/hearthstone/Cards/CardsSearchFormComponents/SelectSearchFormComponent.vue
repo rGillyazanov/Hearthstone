@@ -33,8 +33,8 @@
         components: {
             vSelect: vSelect
         },
-        mounted() {
-            axios.get(this.apiLink).then(response => {
+        async mounted() {
+            await axios.get(this.apiLink).then(response => {
                 this.options = response.data.data;
             }).catch(error => {
                 console.log(error)

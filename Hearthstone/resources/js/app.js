@@ -5,6 +5,7 @@
  */
 
 import CardsComponent from "./components/hearthstone/Cards/CardsComponent";
+import CardComponent from "./components/hearthstone/Card/CardComponent";
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import router from "./router";
@@ -23,6 +24,7 @@ Vue.use(Vuelidate);
  */
 
 Vue.component('cards-component', CardsComponent);
+Vue.component('card-component', CardComponent);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -5,7 +5,7 @@ import CardComponent from "./components/hearthstone/Card/CardComponent";
 export default new VueRouter({
     routes: [
         {
-            path: '',
+            path: '/',
             component: CardsComponent,
             name: 'Home'
         },

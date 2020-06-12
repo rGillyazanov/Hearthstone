@@ -2,6 +2,7 @@
 
 namespace App\Models\Hearthstone;
 
+use App\Services\Api\v1\Hearthstone\Cards\SearchCardService;
 use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
@@ -26,28 +27,13 @@ class Card extends Model
             $mechanics_id = $parameters['mechanics'];
             unset($parameters['mechanics']);
 
-            $query = CardMechanic::select(['id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanics.card_id')->where('mechanics_id', $mechanics_id);
-            $this->queryWhereKeyValue($query, $parameters)->where('playerClass', '!=', 4);
+            $query = CardMechanic::select(['cards.id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanics.card_id')->where('mechanics_id', $mechanics_id);
+            SearchCardService::queryWhereKeyValue($query, $parameters);
 
             return $query;
         }
 
-        return $this->queryWhereKeyValue($query, $parameters)->where('playerClass', '!=', 4);
-    }
-
-    /**
-     * В запрос добавляется условие Where, где слобцы это ключи массива
-     * параметров, а значения поиска - значения массива.
-     * @param $query
-     * @param $parameters
-     * @return mixed
-     */
-    private function queryWhereKeyValue($query, $parameters)
-    {
-        foreach ($parameters as $key => $value)
-            $query->where($key, '=', $value, 'and');
-
-        return $query;
+        return SearchCardService::queryWhereKeyValue($query, $parameters);
     }
 
     public function rarity()

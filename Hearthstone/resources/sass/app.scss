@@ -7,9 +7,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import "vue-select/src/scss/vue-select.scss";
+// Custom styles
+@import "custom";
 
-.orange-bold {
-  color: $orange !important;
-  font-weight: bold !important;
-}
+// Vue-Select
+@import "vue-select/src/scss/vue-select.scss";

@@ -14,9 +14,17 @@ class CardController extends BaseController
         $this->cardService = $cardService;
     }
 
+    /**
+     * Возвращает карту по id
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function index($id)
     {
         $card = $this->cardService->getCard($id);
+
+        if (!$card)
+            return abort(404);
 
         return $this->sendResponse($card, "Карта получена");
     }

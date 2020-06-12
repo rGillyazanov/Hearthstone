@@ -46,6 +46,15 @@
             >
                 Наборы карт
             </select-search-form-component>
+            <div class="select-field">
+                <label class="font-weight-bold">Сортировать</label>
+                <v-select
+                        v-model.number="searchFields.sortBy.value"
+                        :options="searchFields.sortBy.options"
+                        placeholder="Сортировать"
+                        :reduce="label => label.field"
+                ></v-select>
+            </div>
         </div>
         <div class="form-group border-mana-attack-health mt-3">
             <span class="font-weight-bold">Поиск по атрибутам</span>
@@ -82,6 +91,7 @@
     import CardSearchNameComponent from "./CardsSearchFormComponents/CardSearchNameComponent";
     import SelectSearchFormComponent from "./CardsSearchFormComponents/SelectSearchFormComponent";
     import AttributeCardSearchFormComponent from "./CardsSearchFormComponents/AttributeCardSearchFormComponent";
+    import vSelect from 'vue-select';
 
     export default {
         data() {
@@ -101,6 +111,53 @@
                         attackCheckbox: false,
                         health: 5,
                         healthCheckbox: false,
+                    },
+                    sortBy: {
+                        value: null,
+                        options: [
+                            {
+                                label: 'Атаке: по возрастанию',
+                                field: {
+                                    type: 'asc',
+                                    name: 'attack'
+                                }
+                            },
+                            {
+                                label: 'Атака: по убыванию',
+                                field: {
+                                    type: 'desc',
+                                    name: 'attack'
+                                }
+                            },
+                            {
+                                label: 'Здоровье: по возрастанию',
+                                field: {
+                                    type: 'asc',
+                                    name: 'health'
+                                }
+                            },
+                            {
+                                label: 'Здоровье: по убыванию',
+                                field: {
+                                    type: 'desc',
+                                    name: 'health'
+                                }
+                            },
+                            {
+                                label: 'Мана: по возрастанию',
+                                field: {
+                                    type: 'asc',
+                                    name: 'cost'
+                                }
+                            },
+                            {
+                                label: 'Мана: по убыванию',
+                                field: {
+                                    type: 'desc',
+                                    name: 'cost'
+                                }
+                            }
+                        ]
                     }
                 },
                 apiLinks: {
@@ -116,7 +173,8 @@
         components: {
             AttributeCardSearchFormComponent,
             CardSearchNameComponent,
-            SelectSearchFormComponent
+            SelectSearchFormComponent,
+            vSelect
         },
         methods: {
             searchCards() {
@@ -130,7 +188,8 @@
                         cost: this.searchFields.attributes.manaCheckbox ? this.searchFields.attributes.mana : null,
                         attack: this.searchFields.attributes.attackCheckbox ? this.searchFields.attributes.attack : null,
                         health: this.searchFields.attributes.healthCheckbox ? this.searchFields.attributes.health : null,
-                        mechanics: this.searchFields.mechanics
+                        mechanics: this.searchFields.mechanics,
+                        sort: this.searchFields.sortBy.value
                     }
                 }).then(response => {
                     this.$emit("getSearchResult", response.data);

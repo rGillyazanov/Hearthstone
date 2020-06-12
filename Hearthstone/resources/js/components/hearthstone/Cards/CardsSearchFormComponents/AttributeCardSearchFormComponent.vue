@@ -4,8 +4,8 @@
         <small class="form-text text-muted">
             <slot name="name-attribute"></slot>: {{ value }}
             <div class="form-check">
-                <input id="checkbox" class="form-check-input" type="checkbox" :bind="checked" @change="$emit('change', $event.target.checked)">
-                <label for="checkbox" class="form-check-label" style="margin-top: 2px">
+                <input class="form-check-input" type="checkbox" :bind="checked" @change="$emit('change', $event.target.checked)">
+                <label class="form-check-label" style="margin-top: 2px">
                     <slot name="search-attribute"></slot>
                 </label>
             </div>

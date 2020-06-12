@@ -15,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('hearthstone.white.cards.cards');
-})->name('home');
+Route::get('/', 'Web\Hearthstone\Cards\CardsController@index')->name('home');
+Route::get('/card/{id}', 'Web\Hearthstone\Cards\CardsController@index')->name('card');
