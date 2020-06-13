@@ -35,6 +35,7 @@
 <script>
     import pagination from "laravel-vue-pagination";
     import CardsSearchFormComponent from "./CardsSearchFormComponent";
+    import image from "../../../mixins/cards/image";
 
     export default {
         data() {
@@ -67,11 +68,9 @@
                     this.error = true;
                     this.loading = false;
                 });
-            },
-            setImageCard(id_card) {
-                return `https://art.hearthstonejson.com/v1/render/latest/ruRU/256x/${id_card}.png`;
             }
         },
+        mixins: [image],
         components: {
             pagination,
             cardsSearchForm: CardsSearchFormComponent

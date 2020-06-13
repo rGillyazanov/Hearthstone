@@ -18,13 +18,20 @@ class CardService
      */
     public $select = [
         'id_card',
-        'id',
+        'cards.id',
         'name'
     ];
 
+    /**
+     * Получаем карту с отношениями по id
+     * @param $id
+     * @return mixed
+     */
     public function getCard($id)
     {
-        return Card::select('name')->where('id', $id)->first();
+        $relations = ['mechanics', 'hero', 'rarity', 'type', 'race', 'packset'];
+
+        return Card::with($relations)->where('id', $id)->first();
     }
 
     /**

@@ -25,19 +25,19 @@ class CreateCardsTable extends Migration
             $table->unsignedInteger('dbfId')->nullable();
             $table->string('flavor')->nullable();
             $table->string('id_card');
-            $table->bigInteger('playerClass')->unsigned()->index()->nullable();
-            $table->bigInteger('race')->unsigned()->index()->nullable();
-            $table->bigInteger('rarity')->unsigned()->index()->nullable();
-            $table->bigInteger('packset')->unsigned()->index()->nullable();
+            $table->bigInteger('hero_id')->unsigned()->index()->nullable();
+            $table->bigInteger('race_id')->unsigned()->index()->nullable();
+            $table->bigInteger('rarity_id')->unsigned()->index()->nullable();
+            $table->bigInteger('packset_id')->unsigned()->index()->nullable();
             $table->string('text')->nullable();
-            $table->bigInteger('type')->unsigned()->index()->nullable();
+            $table->bigInteger('type_id')->unsigned()->index()->nullable();
             $table->string('artist')->nullable();
 
-            $table->foreign('playerClass')->references('id')->on('heroes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('race')->references('id')->on('races')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('rarity')->references('id')->on('rarities')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('packset')->references('id')->on('packsets')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('type')->references('id')->on('types')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('hero_id')->references('id')->on('heroes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('race_id')->references('id')->on('races')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('rarity_id')->references('id')->on('rarities')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('packset_id')->references('id')->on('packsets')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('types')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

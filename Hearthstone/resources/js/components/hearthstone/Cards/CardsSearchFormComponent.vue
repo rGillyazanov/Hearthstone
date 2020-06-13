@@ -47,7 +47,7 @@
                 Наборы карт
             </select-search-form-component>
             <div class="select-field">
-                <label class="font-weight-bold">Сортировать</label>
+                <label class="font-weight-regular">Сортировать</label>
                 <v-select
                         v-model.number="searchFields.sortBy.value"
                         :options="searchFields.sortBy.options"
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="form-group border-mana-attack-health mt-3">
-            <span class="font-weight-bold">Поиск по атрибутам</span>
+            <span class="font-weight-regular">Поиск по атрибутам</span>
             <attribute-card-search-form-component
                     v-model.number="searchFields.attributes.mana"
                     :checked="searchFields.attributes.manaCheckbox"
@@ -180,11 +180,11 @@
             searchCards() {
                 axios.get('/api/cards/search', {
                     params: {
-                        playerClass: this.searchFields.heroes,
-                        rarity: this.searchFields.rarities,
-                        type: this.searchFields.types,
-                        race: this.searchFields.races,
-                        packset: this.searchFields.packSets,
+                        hero_id: this.searchFields.heroes,
+                        rarity_id: this.searchFields.rarities,
+                        type_id: this.searchFields.types,
+                        race_id: this.searchFields.races,
+                        packset_id: this.searchFields.packSets,
                         cost: this.searchFields.attributes.manaCheckbox ? this.searchFields.attributes.mana : null,
                         attack: this.searchFields.attributes.attackCheckbox ? this.searchFields.attributes.attack : null,
                         health: this.searchFields.attributes.healthCheckbox ? this.searchFields.attributes.health : null,

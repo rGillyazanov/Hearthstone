@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label class="font-weight-bold" for="cardName"><slot name="label">Название карты</slot></label>
+        <label class="font-weight-regular" for="cardName"><slot name="label">Название карты</slot></label>
         <input type="text" class="form-control" :class="{'is-invalid': $v.value.$error}" @blur="$v.value.$touch()" id="cardName" aria-describedby="nameCard" autocomplete="off" placeholder="Введите название карты" :bind="value" @change="$emit('input', $event.target.value)">
         <div class="invalid-feedback" v-if="!$v.value.minLength">
             Минимальное количество символов {{ $v.value.$params.minLength.min }}. Количество символов в строке: {{ value.length }}.

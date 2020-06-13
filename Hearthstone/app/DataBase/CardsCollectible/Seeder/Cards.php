@@ -28,12 +28,12 @@ class Cards extends CardsDataFile
                 'dbfId' => isset($this->data[$i]->dbfId) ? $this->data[$i]->dbfId : null,
                 'flavor' => isset($this->data[$i]->flavor) ? $this->data[$i]->flavor : null,
                 'id_card' => isset($this->data[$i]->id) ? $this->data[$i]->id : '',
-                'playerClass' => $this->checkFieldId('heroes', 'name', strval(isset($this->data[$i]->cardClass) ? $this->data[$i]->cardClass : null)),
-                'race' => $this->checkFieldId('races', 'name', strval(isset($this->data[$i]->race) ? $this->data[$i]->race : null)),
-                'rarity' => $this->checkFieldId('rarities', 'name', strval(isset($this->data[$i]->rarity) ? $this->data[$i]->rarity : null)),
-                'packset' => $this->checkFieldId('packsets', 'name', strval(isset($this->data[$i]->set) ? $this->data[$i]->set : null)),
+                'hero_id' => $this->checkFieldId('heroes', 'name', strval(isset($this->data[$i]->cardClass) ? $this->data[$i]->cardClass : null)),
+                'race_id' => $this->checkFieldId('races', 'name', strval(isset($this->data[$i]->race) ? $this->data[$i]->race : null)),
+                'rarity_id' => $this->checkFieldId('rarities', 'name', strval(isset($this->data[$i]->rarity) ? $this->data[$i]->rarity : null)),
+                'packset_id' => $this->checkFieldId('packsets', 'name', strval(isset($this->data[$i]->set) ? $this->data[$i]->set : null)),
                 'text' => isset($this->data[$i]->text) ? $this->data[$i]->text : null,
-                'type' => $this->checkFieldId('types', 'name', strval(isset($this->data[$i]->type) ? $this->data[$i]->type : null)),
+                'type_id' => $this->checkFieldId('types', 'name', strval(isset($this->data[$i]->type) ? $this->data[$i]->type : null)),
                 'artist' => isset($this->data[$i]->artist) ? $this->data[$i]->artist : null
             ]);
         }

@@ -10,8 +10,16 @@
   box-shadow: none;
 }
 
+.font-weight-regular {
+  font-weight: 500 !important;
+}
+
 // Vue-Select
 $vs-border-width: 2px !default;
 $vs-border-style: solid !default;
 $vs-border-radius: 2px !default;
 $vs-border-color: #404040;
+
+.card-parameters span {
+  @extend .font-weight-regular
+}

@@ -27,6 +27,6 @@ class SearchCardService
         }
 
         // Возвращаем карты за исключением карточек героев
-        return $query->where('cost', '!=', null);
+        return $query->where('cards.cost', '!=', null);
     }
 }

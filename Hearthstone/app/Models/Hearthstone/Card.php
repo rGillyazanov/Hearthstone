@@ -27,7 +27,7 @@ class Card extends Model
             $mechanics_id = $parameters['mechanics'];
             unset($parameters['mechanics']);
 
-            $query = CardMechanic::select(['cards.id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanics.card_id')->where('mechanics_id', $mechanics_id);
+            $query = CardMechanic::select(['cards.id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanic.card_id')->where('mechanic_id', $mechanics_id);
             SearchCardService::queryWhereKeyValue($query, $parameters);
 
             return $query;
@@ -36,33 +36,57 @@ class Card extends Model
         return SearchCardService::queryWhereKeyValue($query, $parameters);
     }
 
+    /**
+     * Получить модель качества у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function rarity()
     {
-        return $this->belongsTo(Rarity::class, "rarity");
+        return $this->belongsTo(Rarity::class);
     }
 
+    /**
+     * Получить модель расы у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function race()
     {
-        return $this->belongsTo(Race::class, "race");
+        return $this->belongsTo(Race::class);
     }
 
+    /**
+     * Получить модель типа у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function type()
     {
-        return $this->belongsTo(Type::class, "type");
+        return $this->belongsTo(Type::class);
     }
 
+    /**
+     * Получить модель набора у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function packset()
     {
-        return $this->belongsTo(Packset::class, "packset");
+        return $this->belongsTo(Packset::class);
     }
 
+    /**
+     * Получить модель героя у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function hero()
     {
-        return $this->belongsTo(Hero::class, "playerClass");
+        return $this->belongsTo(Hero::class);
     }
 
+    /**
+     * Получить все механики у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function mechanics()
     {
-        return $this->belongsToMany(CardMechanic::class, 'card_mechanics', 'mechanics_id', 'card_id');
+        return $this->belongsToMany(Mechanic::class);
     }
 }

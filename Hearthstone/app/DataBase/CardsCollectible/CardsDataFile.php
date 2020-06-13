@@ -34,30 +34,9 @@ abstract class CardsDataFile
             return null;
         }
 
-        $arrContextOptions=array(
-            "ssl"=>array(
-                "verify_peer"=>false,
-                "verify_peer_name"=>false,
-            ),
-        );
-
-        $file = @file_get_contents($this->path, false, stream_context_create($arrContextOptions));
+        $file = @file_get_contents($this->path);
 
         return json_decode($file);
-    }
-
-    /**
-     * Проверяет значение из Json файла на существование
-     * @param $value
-     * @return string
-     */
-    protected function getValueFromJson($value)
-    {
-        if (isset($value)) {
-            return $value;
-        }
-
-        return "";
     }
 
     /**

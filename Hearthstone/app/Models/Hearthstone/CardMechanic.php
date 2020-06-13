@@ -6,22 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class CardMechanic extends Model
 {
-    protected $fillable = ["card_id", "mechanics_id"];
+    protected $table = 'card_mechanic';
+
+    protected $fillable = ["card_id", "mechanic_id"];
 
     public $timestamps = false;
 
-    public function card()
-    {
-        return $this->belongsTo(Card::class, "card_id");
-    }
-
-    public function mechanic()
-    {
-        return $this->belongsTo(Mechanic::class, "mechanics_id");
-    }
-
+    /**
+     * Все карты с механикой
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function cards()
     {
-        return $this->hasMany(Card::class, 'card_id');
+        return $this->hasMany(Card::class);
+    }
+
+    /**
+     * Все механики у карты
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function mechanics()
+    {
+        return $this->hasMany(Mechanic::class);
     }
 }

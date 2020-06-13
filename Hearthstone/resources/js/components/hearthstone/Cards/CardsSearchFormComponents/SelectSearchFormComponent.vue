@@ -1,6 +1,6 @@
 <template>
     <div class="select-field">
-        <label class="font-weight-bold"><slot></slot></label>
+        <label class="font-weight-regular"><slot></slot></label>
         <v-select
                 :options="options"
                 label="name"

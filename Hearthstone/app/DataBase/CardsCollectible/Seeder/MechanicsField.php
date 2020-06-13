@@ -34,7 +34,7 @@ class MechanicsField extends CardsDataFile
 
                     CardMechanic::create([
                         'card_id' => $cardIdInDB,
-                        'mechanics_id' => $mechanicIdInDB
+                        'mechanic_id' => $mechanicIdInDB
                     ]);
                 }
             }
