@@ -2,7 +2,7 @@
     <div>
         <div class="form-group search-form-fields">
             <card-search-name-component v-model.lazy="searchFields.cardName" @input="searchCardsOfName">
-                <span slot="label">Поиск по названию карты</span>
+                <span slot="label">Поиск по названию и описанию карты</span>
             </card-search-name-component>
             <select-search-form-component
                     v-model.number="searchFields.heroes"

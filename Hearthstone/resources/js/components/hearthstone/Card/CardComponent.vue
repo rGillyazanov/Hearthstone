@@ -39,6 +39,14 @@
                             <div v-if="card.cost" class="attack d-flex align-items-center">
                                 <img src="/images/hearthstone/icons/Mana.png" alt="Мана"><span class="ml-2">{{ card.cost }}</span>
                             </div>
+                            <div v-if="card.rarity_id !== 5" class="attack d-flex align-items-center">
+                                <img style="margin-left: 2px" src="/images/hearthstone/icons/dust.png" alt="Мана"
+                                     data-toggle="tooltip"
+                                     data-placement="bottom"
+                                     title="Стоимость создания карты"
+                                >
+                                <span class="ml-2">{{ card.dust.common }} / {{ card.dust.gold }} (Золотая)</span>
+                            </div>
                         </div>
                         <div>
                             <h5 class="mt-2">Параметры</h5>
@@ -70,6 +78,36 @@
                 loading: null
             }
         },
+        methods: {
+            getCostOfCard(rarity) {
+                let costCommon, costGold = 0;
+                switch (rarity) {
+                    case 1:
+                        costCommon = 50;
+                        costGold = costCommon * 8;
+                        break;
+                    case 2:
+                        costCommon = 100;
+                        costGold = costCommon * 8;
+                        break;
+                    case 3:
+                        costCommon = 400;
+                        costGold = costCommon * 8;
+                        break;
+                    case 4:
+                        costCommon = 1600;
+                        costGold = costCommon * 2;
+                        break;
+                    default:
+                        console.log("Не удалось определить стоимость карты")
+                }
+
+                return {
+                    common: costCommon,
+                    gold: costGold
+                };
+            }
+        },
         watch: {
             $route (toRoute) {
                 this.id = toRoute.params['id']
@@ -88,6 +126,7 @@
             axios.get('/api/card/' + this.id).then(response => {
                 this.error = this.loading = false;
                 this.card = response.data.data;
+                this.card.dust = this.getCostOfCard(this.card.rarity_id);
             }).catch(error => {
                 this.loading = false;
                 this.error = true;

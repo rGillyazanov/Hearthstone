@@ -11,9 +11,12 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-xs-12 d-flex justify-content-center align-items-center" v-if="error">
-                        <h1>Ошибка при получении карт</h1>
+                        <h1 class="alert alert-danger">Ошибка при получении карт</h1>
                     </div>
                     <div class="col-lg-9 col-xs-12 d-flex flex-column" v-if="cards && !loading">
+                        <div class="col-12 d-flex justify-content-center align-items-center" v-if="!isFind">
+                            <h1 class="alert alert-danger">Карт не найдено</h1>
+                        </div>
                         <div class="row">
                             <div v-for="card in cards.data" :key="card.id" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center">
                                 <router-link :to="{name: 'Card', params: {id: card.id}}">
@@ -42,7 +45,8 @@
             return {
                 cards: null,
                 error: null,
-                loading: null
+                loading: null,
+                isFind: null
             }
         },
         mounted() {
@@ -69,6 +73,12 @@
                     this.loading = false;
                 });
             }
+        },
+        updated() {
+            this.$nextTick(() => {
+                if (!this.loading)
+                    this.isFind = this.cards.data.length !== 0;
+            })
         },
         mixins: [image],
         components: {

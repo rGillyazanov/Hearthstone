@@ -10,7 +10,7 @@ class CardService
      * Количество карт на страницу
      * @var int
      */
-    public $perPage = 12;
+    public $perPage = 16;
 
     /**
      * Данные, необходимые для отображения карт
@@ -61,6 +61,7 @@ class CardService
      */
     public function getCardsWithNameParameter($cardName)
     {
-        return Card::select($this->select)->where('name', 'LIKE', '%'.$cardName.'%')->paginate($this->perPage);
+        return Card::select($this->select)->where('name', 'LIKE', '%'.$cardName.'%')->
+                where('text', 'LIKE', '%'.$cardName.'%', 'or')->paginate($this->perPage);
     }
 }
