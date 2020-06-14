@@ -92,7 +92,7 @@
                         break;
                     case 3:
                         costCommon = 400;
-                        costGold = costCommon * 8;
+                        costGold = costCommon * 4;
                         break;
                     case 4:
                         costCommon = 1600;

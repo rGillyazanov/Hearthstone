@@ -8,7 +8,14 @@
                 :placeholder="placeholder"
                 :bind="value"
                 @input="$emit('input', $event)"
-        ></v-select>
+        >
+            <template #selected-option="option">
+                {{ trans.get(getTrans + option.name) }}
+            </template>
+            <template v-slot:option="option">
+                {{ trans.get(getTrans + option.name) }}
+            </template>
+        </v-select>
     </div>
 </template>
 
@@ -28,13 +35,19 @@
                 type: String,
                 required: true
             },
-            placeholder: String
+            placeholder: String,
+            translate: String
         },
         components: {
             vSelect: vSelect
         },
-        async mounted() {
-            await axios.get(this.apiLink).then(response => {
+        computed: {
+            getTrans() {
+                return this.translate != null ? this.translate + '.' : '';
+            }
+        },
+        mounted() {
+            axios.get(this.apiLink).then(response => {
                 this.options = response.data.data;
             }).catch(error => {
                 console.log(error)

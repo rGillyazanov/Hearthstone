@@ -9,10 +9,12 @@ import CardComponent from "./components/hearthstone/Card/CardComponent";
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import router from "./router";
+import config from "./languages/config";
 
 require('./bootstrap');
-
 window.Vue = require('vue');
+
+Vue.prototype.trans = config;
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 /**

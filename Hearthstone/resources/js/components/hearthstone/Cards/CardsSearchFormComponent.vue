@@ -7,9 +7,10 @@
             <select-search-form-component
                     v-model.number="searchFields.heroes"
                     :api-link="apiLinks.heroes"
-                    placeholder="Герои"
+                    placeholder="Класс карт"
+                    translate="heroes"
             >
-                Герои
+                Класс
             </select-search-form-component>
             <select-search-form-component
                     v-model.number="searchFields.rarities"

@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "lang.js": "^1.1.14",
         "vue-select": "^3.10.3",
         "vuelidate": "^0.7.5"
     }
