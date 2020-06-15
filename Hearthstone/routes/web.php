@@ -17,3 +17,4 @@ Auth::routes();
 
 Route::get('/', 'Web\Hearthstone\Cards\CardsController@index')->name('home');
 Route::get('/card/{id}', 'Web\Hearthstone\Cards\CardsController@index')->name('card');
+Route::get('/information', 'Web\Hearthstone\Cards\CardsController@index')->name('information');

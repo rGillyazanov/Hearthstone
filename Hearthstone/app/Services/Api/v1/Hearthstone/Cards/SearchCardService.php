@@ -2,6 +2,8 @@
 
 namespace App\Services\Api\v1\Hearthstone\Cards;
 
+use App\Models\Hearthstone\Packset;
+
 class SearchCardService
 {
     /**
@@ -26,7 +28,7 @@ class SearchCardService
                 $query->where($key, '=', $value, 'and');
         }
 
-        // Возвращаем карты за исключением карточек героев
+        // cost сравнивается с null, так как только у скинов стоимость null
         return $query->where('cards.cost', '!=', null);
     }
 }

@@ -8,12 +8,13 @@
                 :placeholder="placeholder"
                 :bind="value"
                 @input="$emit('input', $event)"
+                :searchable="false"
         >
             <template #selected-option="option">
-                {{ trans.get(getTrans + option.name) }}
+                {{ trans.get(getTrans + option.name + '.name') }}
             </template>
             <template v-slot:option="option">
-                {{ trans.get(getTrans + option.name) }}
+                {{ trans.get(getTrans + option.name + '.name') }}
             </template>
         </v-select>
     </div>

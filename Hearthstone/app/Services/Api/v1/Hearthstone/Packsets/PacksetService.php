@@ -7,11 +7,11 @@ use App\Models\Hearthstone\Packset;
 class PacksetService
 {
     /**
-     * Получаем коллекцию всех наборов карт.
+     * Получаем коллекцию всех наборов карт, за исключение скинов героев
      * @return Packset[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getPackSets()
     {
-        return Packset::all();
+        return Packset::where('name', '!=', 'HERO_SKINS')->get();
     }
 }

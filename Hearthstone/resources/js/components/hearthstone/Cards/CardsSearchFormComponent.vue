@@ -16,6 +16,7 @@
                     v-model.number="searchFields.rarities"
                     :api-link="apiLinks.rarities"
                     placeholder="Качество карт"
+                    translate="rarities"
             >
                 Качество карт
             </select-search-form-component>
@@ -23,6 +24,7 @@
                     v-model.number="searchFields.types"
                     :api-link="apiLinks.types"
                     placeholder="Типы карт"
+                    translate="types"
             >
                 Типы карт
             </select-search-form-component>
@@ -30,6 +32,7 @@
                     v-model.number="searchFields.races"
                     :api-link="apiLinks.races"
                     placeholder="Расы карт"
+                    translate="races"
             >
                 Расы карт
             </select-search-form-component>
@@ -37,6 +40,7 @@
                     v-model.number="searchFields.mechanics"
                     :api-link="apiLinks.mechanics"
                     placeholder="Механики карт"
+                    translate="mechanics"
             >
                 Механики карт
             </select-search-form-component>
@@ -44,6 +48,7 @@
                     v-model.number="searchFields.packSets"
                     :api-link="apiLinks.packSets"
                     placeholder="Наборы карт"
+                    translate="packsets"
             >
                 Наборы карт
             </select-search-form-component>
@@ -57,7 +62,7 @@
                 ></v-select>
             </div>
         </div>
-        <div class="form-group border-mana-attack-health mt-3">
+        <div class="form-group mt-3" id="attributes">
             <span class="font-weight-regular">Поиск по атрибутам</span>
             <attribute-card-search-form-component
                     v-model.number="searchFields.attributes.mana"

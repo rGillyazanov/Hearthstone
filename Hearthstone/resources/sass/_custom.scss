@@ -23,3 +23,43 @@ $vs-border-color: #404040;
 .card-parameters span {
   @extend .font-weight-regular
 }
+
+#attributes > div:nth-child(2) .custom-range::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  background-image: url("/images/hearthstone/icons/mana_Input.png");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: center center;
+  margin-top: -0.5rem;
+}
+
+#attributes > div:nth-child(3) .custom-range::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  background-image: url("/images/hearthstone/icons/attack_Input.png");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: center center;
+  margin-top: -0.5rem;
+}
+
+#attributes > div:nth-child(4) .custom-range::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  background-image: url("/images/hearthstone/icons/health_Input.png");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: center center;
+  margin-top: -0.5rem;
+}
+
+.custom-range:focus::-webkit-slider-thumb {
+  box-shadow: none;
+}
