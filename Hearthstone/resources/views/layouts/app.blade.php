@@ -29,9 +29,9 @@
                 <div class="collapse navbar-collapse font-weight-regular" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-3 mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Создание колоды</a>
-                        </li>
+                        <router-link tag="li" class="nav-item" :to="{name: 'DeckBuilder'}">
+                            <a class="nav-link">Создание колоды</a>
+                        </router-link>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Информация
