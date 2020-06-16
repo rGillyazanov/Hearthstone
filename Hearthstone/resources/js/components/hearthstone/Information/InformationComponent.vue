@@ -7,15 +7,15 @@
                         <details open>
                             <summary class="h5">Механики</summary>
                             <ul class="menu-list pl-0">
-                                <a v-for="mechanic in mechanics" :href="'#' + mechanic.name"><li>{{ trans.get('mechanics.' + mechanic.name + '.name') }}</li></a>
+                                <a v-for="mechanic in mechanics" :href="'#' + mechanic.name"><li>{{ mechanic.name }}</li></a>
                             </ul>
                         </details>
                     </div>
                     <div class="col-8">
                         <div class="information p-3 mb-5">
                             <div v-for="mechanic in mechanics" class="mechanics__info">
-                                <h5 :id="mechanic.name">{{ trans.get('mechanics.' + mechanic.name + '.name') }}</h5>
-                                <span>{{ trans.get('mechanics.' + mechanic.name + '.description') }}</span>
+                                <h5 :id="mechanic.name">{{ mechanic.name }}</h5>
+                                <span>{{ mechanic.description }}</span>
                             </div>
                         </div>
                     </div>
@@ -33,9 +33,28 @@
                 mechanics: null
             }
         },
+        methods: {
+            // Соортируем массив механик по алфавиту
+            sortMechanics(data) {
+                data.forEach(item => {
+                    item.description = this.trans.get('mechanics.' + item.name + '.description');
+                    item.name = this.trans.get('mechanics.' + item.name + '.name');
+                });
+
+                data.sort(function (a, b) {
+                    if (a.name > b.name)
+                        return 1;
+                    else if (a.name < b.name)
+                        return -1;
+                    return 0;
+                });
+
+                this.mechanics = data;
+            }
+        },
         mounted() {
             axios.get('/api/mechanics').then(response => {
-                this.mechanics = response.data.data;
+                this.sortMechanics(response.data.data);
             }).catch(error => {
                 console.log(error)
             });

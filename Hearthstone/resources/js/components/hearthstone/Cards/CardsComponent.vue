@@ -75,6 +75,7 @@
             }
         },
         updated() {
+            // Когда страница загружена, проверяем найдены ли карты
             this.$nextTick(() => {
                 if (!this.loading)
                     this.isFind = this.cards.data.length !== 0;

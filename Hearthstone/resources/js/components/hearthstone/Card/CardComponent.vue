@@ -9,20 +9,22 @@
             <div class="col-12 d-flex justify-content-center align-items-center" style="height: calc(100vh - 55px)" v-if="error">
                 <h1>Ошибка при загрузке карты</h1>
             </div>
-            <div class="col-12" v-if="card">
+            <div class="col-10 offset-1" v-if="card">
                 <div class="row">
-                    <div class="col-3 d-flex flex-column justify-content-center">
-                        <img :src="setImageCard(card.id_card)" height="387" width="256" :alt="card.name" class="image-card-rounded">
-                        <div class="d-flex justify-content-center position-relative font-weight-regular" style="bottom: 20px">
+                    <div class="col-lg-4 col-xs-12">
+                        <div class="row d-flex flex-column justify-content-center">
+                            <img :src="setImageCard(card.id_card)" height="387" width="256" :alt="card.name" class="image-card-rounded img-fluid mx-auto">
+                            <div class="d-flex justify-content-center position-relative font-weight-regular" style="bottom: 20px">
                             <span data-toggle="tooltip"
                                   data-placement="bottom"
                                   title="Художник"
                             >
                                 {{ card.artist }}
                             </span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-9 d-flex flex-column mt-5">
+                    <div class="col-lg-8 col-xs-12 d-flex flex-column mt-lg-5 pb-3">
                         <blockquote class="blockquote">
                             <p class="mb-0" v-html="cardFlavor"></p>
                             <footer class="blockquote-footer">{{ card.name }}</footer>

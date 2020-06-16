@@ -26,9 +26,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse font-weight-regular d-flex justify-content-between" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse font-weight-regular" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav ml-3">
+                    <ul class="navbar-nav ml-3 mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="#">Создание колоды</a>
                         </li>
@@ -45,7 +45,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
