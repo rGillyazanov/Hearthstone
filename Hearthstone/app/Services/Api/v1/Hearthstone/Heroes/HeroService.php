@@ -14,4 +14,14 @@ class HeroService
     {
         return Hero::all();
     }
+
+    /**
+     * Возвращает героя по id
+     * @param $id
+     * @return mixed
+     */
+    public function getHero($id)
+    {
+        return Hero::findOrFail($id);
+    }
 }

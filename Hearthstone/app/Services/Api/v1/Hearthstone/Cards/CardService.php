@@ -4,24 +4,8 @@ namespace App\Services\Api\v1\Hearthstone\Cards;
 
 use App\Models\Hearthstone\Card;
 
-class CardService
+class CardService extends BaseCardService
 {
-    /**
-     * Количество карт на страницу
-     * @var int
-     */
-    public $perPage = 16;
-
-    /**
-     * Данные, необходимые для отображения карт
-     * @var string[]
-     */
-    public $select = [
-        'id_card',
-        'cards.id',
-        'name'
-    ];
-
     /**
      * Получаем карту с отношениями по id
      * @param $id
@@ -40,7 +24,7 @@ class CardService
      */
     public function getCardsWithPaginate()
     {
-        return Card::select($this->select)->paginate($this->perPage);
+        return Card::select($this->select)->where('cost', '!=', null)->orderBy('cost')->paginate($this->perPage);
     }
 
     /**
@@ -51,7 +35,7 @@ class CardService
     public function getCardsWithSearchParameters($parametersSearch)
     {
         // search - scopeSearch в модели Card
-        return Card::select($this->select)->search($parametersSearch)->paginate($this->perPage);
+        return Card::select($this->select)->where('cost', '!=', null)->search($parametersSearch)->paginate($this->perPage);
     }
 
     /**
@@ -61,7 +45,7 @@ class CardService
      */
     public function getCardsWithNameParameter($cardName)
     {
-        return Card::select($this->select)->where('name', 'LIKE', '%'.$cardName.'%')->
+        return Card::select($this->select)->where('cost', '!=', null)->where('name', 'LIKE', '%'.$cardName.'%')->
                 where('text', 'LIKE', '%'.$cardName.'%', 'or')->paginate($this->perPage);
     }
 }

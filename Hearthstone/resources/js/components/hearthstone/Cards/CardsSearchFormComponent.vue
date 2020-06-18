@@ -89,7 +89,7 @@
                 <span slot="search-attribute">Поиск по здоровью</span>
             </attribute-card-search-form-component>
         </div>
-        <button type="submit" class="btn btn-success btn-block" @click="searchCards">Найти</button>
+        <button type="submit" class="btn btn-primary btn-block" @click="searchCards">Найти</button>
     </div>
 </template>
 

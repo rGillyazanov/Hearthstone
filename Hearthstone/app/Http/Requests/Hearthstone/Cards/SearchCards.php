@@ -24,12 +24,12 @@ class SearchCards extends FormRequest
     public function rules()
     {
         return [
-            'playerClass' => 'exists:heroes,id',
-            'rarity' => 'exists:rarities,id',
-            'type' => 'exists:types,id',
-            'race' => 'exists:races,id',
+            'hero_id' => 'exists:heroes,id',
+            'rarity_id' => 'exists:rarities,id',
+            'type_id' => 'exists:types,id',
+            'race_id' => 'exists:races,id',
             'mechanics' => 'exists:mechanics,id',
-            'packset' => 'exists:packsets,id',
+            'packset_id' => 'exists:packsets,id',
             'cost' => 'numeric|min:0',
             'attack' => 'numeric|min:0',
             'health' => 'numeric|min:0',

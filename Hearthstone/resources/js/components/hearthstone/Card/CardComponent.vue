@@ -15,12 +15,12 @@
                         <div class="row d-flex flex-column justify-content-center">
                             <img :src="setImageCard(card.id_card)" height="387" width="256" :alt="card.name" class="image-card-rounded img-fluid mx-auto">
                             <div class="d-flex justify-content-center position-relative font-weight-regular" style="bottom: 20px">
-                            <span data-toggle="tooltip"
-                                  data-placement="bottom"
-                                  title="Художник"
-                            >
-                                {{ card.artist }}
-                            </span>
+                                <span data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="Художник"
+                                >
+                                    {{ card.artist }}
+                                </span>
                             </div>
                         </div>
                     </div>
