@@ -24,7 +24,8 @@ class CardsOfDecks extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'exists:heroes,id'
+            'hero_id' => 'exists:heroes,id',
+            'cost' => 'nullable|min:0|max:10'
         ];
     }
 

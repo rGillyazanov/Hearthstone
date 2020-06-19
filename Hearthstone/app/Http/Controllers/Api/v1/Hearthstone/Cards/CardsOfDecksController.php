@@ -22,13 +22,35 @@ class CardsOfDecksController extends BaseController
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(CardsOfDecks $request, $id)
+    public function cardOfHero(CardsOfDecks $request, $id)
     {
         $cardsOfHero = $this->cardsOfDecksService->getCardsOfHero($id)->appends($request->except('page'));
+
+        return $this->sendResponse($cardsOfHero, "Карты героя");
+    }
+
+    /**
+     * Возвращает коллекцию нейтральных карт
+     *
+     * @param CardsOfDecks $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cardsNeutrals(CardsOfDecks $request)
+    {
         $neutralsCards = $this->cardsOfDecksService->getNeutralsCards()->appends($request->except('page'));
 
-        $cards = ['cardsOfHero' => $cardsOfHero, 'neutralsCards' => $neutralsCards];
+        return $this->sendResponse($neutralsCards, "Карты нейтральные");
+    }
 
-        return $this->sendResponse($cards, "Карты героя и нейтральные");
+    /**
+     * Возвращает коллекцию карт героя по мане
+     * @param CardsOfDecks $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cardsOfCost(CardsOfDecks $request)
+    {
+        $cardsOfCost = $this->cardsOfDecksService->getCardsOfCost($request->get('cost'), $request->get('hero_id'))->appends($request->except('page'));
+
+        return $this->sendResponse($cardsOfCost, "Карты героя со стоимостью");
     }
 }

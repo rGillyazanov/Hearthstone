@@ -24,7 +24,7 @@ class CardsOfDecksService extends BaseCardService
      */
     public function getCardsOfHero($id)
     {
-        return Card::where('hero_id', $id)->where('cost', '!=', null)->orderBy('cost')->paginate($this->perPage, $this->select);
+        return Card::where('hero_id', $id)->where('cost', '!=', null)->orderBy('cost')->orderBy('name')->paginate($this->perPage, $this->select);
     }
 
     /**
@@ -33,6 +33,21 @@ class CardsOfDecksService extends BaseCardService
      */
     public function getNeutralsCards()
     {
-        return Card::where('hero_id', 4)->where('cost', '!=', null)->orderBy('cost')->paginate($this->perPage, $this->select);
+        return Card::where('hero_id', 4)->where('cost', '!=', null)->orderBy('cost')->orderBy('name')->paginate($this->perPage, $this->select);
+    }
+
+    /**
+     * Получаем карты по стоимости для указанного героя
+     * @param $cost
+     * @param $hero_id
+     * @return mixed
+     */
+    public function getCardsOfCost($cost, $hero_id)
+    {
+        // Если стоимость равна 10, берем карты и с большей стоимостью
+        if ($cost == 10)
+            return Card::where('cost', '>=', $cost)->where('hero_id', $hero_id)->orderBy('cost')->orderBy('name')->where('cost', '!=', null)->paginate($this->perPage, $this->select);
+
+        return Card::where('cost', $cost)->where('hero_id', $hero_id)->orderBy('cost')->orderBy('name')->where('cost', '!=', null)->paginate($this->perPage, $this->select);
     }
 }

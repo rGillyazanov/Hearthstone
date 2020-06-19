@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="row d-flex flex-wrap-reverse">
@@ -14,21 +14,35 @@
                         <h1 class="alert alert-danger">Ошибка при получении карт</h1>
                     </div>
                     <div class="col-lg-9 col-xs-12 d-flex flex-column" v-if="cardsOfHero && !loading">
-                        <div class="col-12 d-flex justify-content-center align-items-center" v-if="!isFind">
-                            <h1 class="alert alert-danger">Карт не найдено</h1>
-                        </div>
                         <div class="row">
-                            <div class="col-12 justify-content-start" v-if="!loadingHero">
-                                <div class="mt-4 ml-5">
-                                    <img @click="isNeutrals = false"
-                                         data-toggle="tooltip"
-                                         data-placement="top"
-                                         :title="trans.get('heroes.' + hero.name)"
-                                         :src="'/images/hearthstone/heroesIcons/' + hero.name + '.png'">
-                                    <img @click="isNeutrals = true"
-                                         data-toggle="tooltip"
-                                         data-placement="top"
-                                         title="Общие" class="ml-3" :src="'/images/hearthstone/heroesIcons/neutrals.png'">
+                            <div class="col-12" v-if="!loadingHero">
+                                <div class="row mt-4 d-flex justify-content-between align-items-center">
+                                    <div class="ml-md-5 col-12 col-md-2 d-flex justify-content-center">
+                                        <img @click="isNeutrals = false"
+                                             data-toggle="tooltip"
+                                             data-placement="top"
+                                             :title="trans.get('heroes.' + hero.name)"
+                                             class="heroIcon"
+                                             :class="{'card-type-active': !isNeutrals}"
+                                             height="60"
+                                             width="60"
+                                             :src="'/images/hearthstone/heroesIcons/' + hero.name + '.png'">
+                                        <img @click="isNeutrals = true"
+                                             data-toggle="tooltip"
+                                             data-placement="top"
+                                             :class="{'card-type-active': isNeutrals}"
+                                             height="60"
+                                             width="60"
+                                             title="Общие" class="ml-3 heroIcon" :src="'/images/hearthstone/heroesIcons/neutrals.png'">
+                                    </div>
+                                    <div class="col-12 col-md-9 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0">
+                                        <div class="row pr-md-5">
+                                            <div id="cost" class="position-relative" @click="isNeutrals ? cardsOfCostNeutrals(mana - 1) : cardsOfCostHero(mana - 1)" v-for="(mana, index) in 11">
+                                                <span class="cost-text text-border">{{ mana - 1}}</span>
+                                                <img :src="'/images/hearthstone/icons/mana_Input.png'" height="40" width="40">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <template v-if="isNeutrals">
@@ -56,15 +70,18 @@
                         </div>
                         <pagination v-if="isNeutrals" :limit="2" align="center" :data="neutralsCards" @pagination-change-page="getNeutralsCardsPaginate"></pagination>
                         <pagination v-else :limit="2" align="center" :data="cardsOfHero" @pagination-change-page="getCardsOfHeroPaginate"></pagination>
+                        <div class="h-100 d-flex justify-content-center align-items-center" v-if="!isFind">
+                            <h1 class="alert alert-danger">Карт не найдено</h1>
+                        </div>
                     </div>
-                    <div class="col-lg-3 col-md-12 mb-4">
+                    <div class="col-lg-3 col-md-12 pb-4 deck__block">
                         <div class="position-sticky mt-5" style="top: 20px;">
                             <span class="d-flex flex-column text-center">
                                 <span class="d-flex justify-content-center align-items-center" v-if="!loadingHero">
-                                    <img :src="'/images/hearthstone/heroesIcons/' + hero.name + '.png'" height="40" width="40">
-                                    <div class="ml-3 h5 mb-0">{{ trans.get('heroes.' + hero.name) }}</div>
+                                    <img :src="'/images/hearthstone/heroesIcons/' + hero.name + '.png'" height="40" width="40" class="heroIcon">
+                                    <div class="ml-3 h5 mb-0 text-border text-white">{{ trans.get('heroes.' + hero.name) }}</div>
                                 </span>
-                                <span class="h4 mt-3 font-weight-regular">{{ countCardsInDeck }} / 30</span>
+                                <span class="h4 mt-3 font-weight-bold text-border text-white">{{ countCardsInDeck }} / 30</span>
                             </span>
                             <div class="mt-5 text-center" v-if="countCardsInDeck === 0">
                                 <span class="h6">Выберите карты, чтобы добавить их в колоду.</span>
@@ -74,11 +91,11 @@
                                     <div @click="removeCardFromDeck(index, $event)" class="card-tile" :aria-label="card.name" style="height: 34px; line-height: 34px; cursor: pointer">
                                         <div class="card-gem"
                                              :class="{
-                                        'rarity-legendary': card.rarity_id === '4',
-                                        'rarity-common': card.rarity_id === '1',
-                                        'rarity-free': card.rarity_id === '5',
-                                        'rarity-rare': card.rarity_id === '2',
-                                        'rarity-epic': card.rarity_id === '3',
+                                        'rarity-legendary': card.rarity_id === 4,
+                                        'rarity-common': card.rarity_id === 1,
+                                        'rarity-free': card.rarity_id === 5,
+                                        'rarity-rare': card.rarity_id === 2,
+                                        'rarity-epic': card.rarity_id === 3,
                                     }"
                                              style="width: 34px;"
                                         >
@@ -86,8 +103,8 @@
                                         </div>
                                         <div class="card-frame">
                                             <img class="card-asset" :class="{'count-one': card.count !== 2, 'count-two': card.count === 2}" :src="'https://art.hearthstonejson.com/v1/tiles/'+ card.id_card + '.png'" :alt="card.name">
-                                            <div class="card-countbox" style="width: 24px;"  v-if="card.count === 2 || card.rarity_id === '4'">
-                                                <span class="card-count" style="font-size: 1.15em; top: -2px;" v-if="card.rarity_id === '4'">★</span>
+                                            <div class="card-countbox" style="width: 24px;"  v-if="card.count === 2 || card.rarity_id === 4">
+                                                <span class="card-count" style="font-size: 1.15em; top: -2px;" v-if="card.rarity_id === 4">★</span>
                                                 <span class="card-count" style="font-size: 1.15em; top: -2px;" v-if="card.count === 2">{{ card.count }}</span>
                                             </div><span class="card-fade-countbox"></span>
                                             <figcaption class="card-name" style="font-size: 0.9em; width: calc(100% - 28px);">{{ card.name }}</figcaption>
@@ -95,12 +112,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" v-if="countCardsInDeck === 30">
-                                <div class="col-12 flex-column">
-                                    <button class="btn btn-primary mt-3" @click="showCodeDeck" >Показать код колоды</button>
-                                    <input class="form-control mt-3" type="text" :value="codeDeck" readonly v-if="codeDeck.length !== 0">
+                            <div class="row mt-3">
+                                <div class="col-12 d-inline-flex justify-content-center align-items-center"
+                                     data-toggle="tooltip"
+                                     data-placement="bottom"
+                                     title="Стоимость создания колоды">
+                                    <img src="/images/hearthstone/icons/dust.png" alt="Стоимость колоды" height="18">
+                                    <span class="ml-2 font-weight-regular">{{ deckCost }}</span>
                                 </div>
                             </div>
+                            <div class="row" v-if="countCardsInDeck === 30">
+                                <div class="col-12 d-flex justify-content-center">
+                                    <button @click="showCodeDeck" type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#exampleModal">
+                                        Код колоды
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" v-if="countCardsInDeck === 30">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Код колоды</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input ref="inputCodeDeck" class="form-control" type="text" v-model="codeDeck" readonly>
+                            <div class="badge badge-success mt-3" v-if="isCopy">Код колоды скопирован</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" @click="doCopy">Скопировать код колоды</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
                         </div>
                     </div>
                 </div>
@@ -130,13 +177,15 @@
                     ],
                     format: null
                 },
+                deckCost: 0,
                 isNeutrals: false,
                 cardsImg: [],
                 countCardsInDeck: 0,
                 error: null,
                 loading: null,
                 loadingHero: null,
-                isFind: null
+                isFind: null,
+                isCopy: false
             }
         },
         watch: {
@@ -149,8 +198,18 @@
                 this.error = this.cardsOfHero = this.neutralsCards = null;
                 this.loading = true;
                 axios.get('/api/cards/hero/' + this.heroId).then(response => {
-                    this.cardsOfHero = response.data.data.cardsOfHero;
-                    this.neutralsCards = response.data.data.neutralsCards;
+                    this.cardsOfHero = response.data.data;
+                    this.loading = this.error = false;
+                }).catch(error => {
+                    this.error = true;
+                    this.loading = false;
+                });
+            },
+            getNeutralsCards() {
+                this.error = this.cardsOfHero = this.neutralsCards = null;
+                this.loading = true;
+                axios.get('/api/cards/hero/neutrals').then(response => {
+                    this.neutralsCards = response.data.data;
                     this.loading = this.error = false;
                 }).catch(error => {
                     this.error = true;
@@ -162,7 +221,7 @@
                 this.loading = true;
                 // Ссылка на следуюшую страницу, такая же как у первой, но меняется page
                 axios.get(this.cardsOfHero.first_page_url.match(/(.*?)page=/g) + page).then(response => {
-                    this.cardsOfHero = response.data.data.cardsOfHero;
+                    this.cardsOfHero = response.data.data;
                     this.loading = this.error = false;
                 }).catch(error => {
                     this.error = true;
@@ -174,7 +233,7 @@
                 this.loading = true;
                 // Ссылка на следуюшую страницу, такая же как у первой, но меняется page
                 axios.get(this.neutralsCards.first_page_url.match(/(.*?)page=/g) + page).then(response => {
-                    this.neutralsCards = response.data.data.neutralsCards;
+                    this.neutralsCards = response.data.data;
                     this.loading = this.error = false;
                 }).catch(error => {
                     this.error = true;
@@ -187,11 +246,14 @@
                     let image = {
                         id_card: event.currentTarget.dataset.idcard,
                         name: event.currentTarget.dataset.name,
-                        rarity_id: event.currentTarget.dataset.rarityid,
+                        rarity_id: parseInt(event.currentTarget.dataset.rarityid),
                         cost: parseInt(event.currentTarget.dataset.cost),
                         dbfId: parseInt(event.currentTarget.dataset.dbfid),
                         count: 1
                     }
+
+                    this.deckCost += this.getCostCard(image.rarity_id);
+                    console.log(this.deckCost);
 
                     // Проверяем существует ли карта в колоде
                     let cardExitsInDeck = this.cardsImg.find(function (value) {
@@ -205,7 +267,7 @@
                     } else {
                         // Если карта в колоде и она не легендарная, добавляем вторую.
                         this.cardsImg.forEach((value, index) => {
-                            if (value.dbfId === image.dbfId && value.count < 2 && image.rarity_id !== '4') {
+                            if (value.dbfId === image.dbfId && value.count < 2 && image.rarity_id !== 4) {
                                 this.cardsImg[index].count = 2;
                                 this.countCardsInDeck++;
                             }
@@ -221,12 +283,15 @@
                 if (this.cardsImg[index].count === 2) {
                     this.cardsImg[index].count = 1;
                     this.countCardsInDeck--;
+                    this.deckCost -= this.getCostCard(this.cardsImg[index].rarity_id);
                 } else {
                     this.cardsImg.splice(index, 1);
                     this.countCardsInDeck--;
+                    this.deckCost -= this.getCostCard(this.cardsImg[index].rarity_id);
                 }
             },
             showCodeDeck() {
+                this.isCopy = false;
                 this.deck.cards = [];
                 this.cardsImg.forEach(value => {
                     this.deck.cards.push([value.dbfId, value.count])
@@ -237,13 +302,67 @@
 
                 this.deck.format = FormatType.FT_STANDARD;
                 this.codeDeck = encode(this.deck);
+            },
+            cardsOfCostHero(cost) {
+                this.error = null;
+                this.loading = true;
+                axios.get('/api/cards/hero/cost', {
+                    params: {
+                        cost: cost,
+                        hero_id: this.heroId
+                    }
+                }).then(response => {
+                    this.cardsOfHero = response.data.data;
+                    this.loading = this.error = false;
+                }).catch(error => {
+                    this.error = true;
+                    this.loading = false;
+                });
+            },
+            cardsOfCostNeutrals(cost) {
+                this.error = null;
+                this.loading = true;
+                axios.get('/api/cards/hero/cost', {
+                    params: {
+                        cost: cost,
+                        hero_id: 4
+                    }
+                }).then(response => {
+                    this.neutralsCards = response.data.data;
+                    this.loading = this.error = false;
+                }).catch(error => {
+                    this.error = true;
+                    this.loading = false;
+                });
+            },
+            doCopy() {
+                this.$refs.inputCodeDeck.select();
+                document.execCommand('copy');
+                this.isCopy = true;
+            },
+            getCostCard(rarity_id) {
+                switch (rarity_id) {
+                    case 1:
+                        return  50;
+                    case 2:
+                        return 100;
+                    case 3:
+                        return  400;
+                    case 4:
+                        return  1600;
+                    default:
+                        return 0;
+                }
             }
         },
         updated() {
             // Когда страница загружена, проверяем найдены ли карты
             this.$nextTick(() => {
                 if (!this.loading)
-                    this.isFind = this.cardsOfHero.data.length !== 0 || this.neutralsCards.data.length !== 0;
+                    if (this.cardsOfHero)
+                        this.isFind = this.cardsOfHero.data.length !== 0;
+                    else if (this.neutralsCards)
+                        this.isFind = this.neutralsCards.data.length !== 0;
 
                 $('[data-toggle="tooltip"]').tooltip();
             })
@@ -262,11 +381,46 @@
                 this.loadingHero = false;
             });
             this.getCardForHero();
+            this.getNeutralsCards();
         }
     }
 </script>
 
 <style lang="scss" scoped>
+
+    .deck__block {
+        background-color: #e6e6e6;
+        border-left: 1px solid;
+        border-right: 1px solid;
+    }
+
+    .cost-text {
+        position: absolute;
+        top: 4px;
+        left: 15px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    #cost {
+        cursor: pointer;
+    }
+
+    #cost:last-child > span {
+        left: 9px;
+    }
+
+    .heroIcon {
+        cursor: pointer;
+        border: 2px solid #ebe7e3;
+        border-radius: 50%;
+        box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-type-active {
+        border-color: #fff700;
+    }
 
     .cards-container::-webkit-scrollbar-track
     {
@@ -319,6 +473,7 @@
             font-weight: bold;
             text-align: center;
             width: 100%;
+            bottom: 0;
         }
 
         &.rarity-common,
