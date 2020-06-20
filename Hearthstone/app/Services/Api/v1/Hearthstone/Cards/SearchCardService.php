@@ -28,7 +28,6 @@ class SearchCardService
                 $query->where($key, '=', $value, 'and');
         }
 
-        // cost сравнивается с null, так как только у скинов стоимость null
-        return $query->where('cards.cost', '!=', null);
+        return $query;
     }
 }

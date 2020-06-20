@@ -28,12 +28,36 @@ class Card extends Model
             unset($parameters['mechanics']);
 
             $query = CardMechanic::select(['cards.id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanic.card_id')->where('mechanic_id', $mechanics_id);
-            SearchCardService::queryWhereKeyValue($query, $parameters);
+            SearchCardService::queryWhereKeyValue($query, $parameters)->NotSkinsAndOrderByCostName();
 
             return $query;
         }
 
-        return SearchCardService::queryWhereKeyValue($query, $parameters);
+        return SearchCardService::queryWhereKeyValue($query, $parameters)->notSkinsAndOrderByCostName();
+    }
+
+    /**
+     * Возвращает коллекцию карт из стандартного набора
+     * @param $query
+     * @return mixed
+     */
+    public function scopeStandard($query)
+    {
+        // Наборы стандартных карт
+        $packSets = [6, 4, 24, 11, 22, 10, 8, 5];
+
+        return $query->whereIn('packset_id', $packSets);
+    }
+
+    /**
+     * Возвращает коллекцию карт без скинов героев и отсортированную
+     * по стоимости и названию.
+     * @param $query
+     * @return mixed
+     */
+    public function scopeNotSkinsAndOrderByCostName($query)
+    {
+        return $query->where('cost', '!=', null)->orderBy('cost')->orderBy('name');
     }
 
     /**

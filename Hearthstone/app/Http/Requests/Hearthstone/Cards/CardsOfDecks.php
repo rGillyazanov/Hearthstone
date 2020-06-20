@@ -25,7 +25,8 @@ class CardsOfDecks extends FormRequest
     {
         return [
             'hero_id' => 'exists:heroes,id',
-            'cost' => 'nullable|min:0|max:10'
+            'cost' => 'nullable|min:0|max:10',
+            'format' => 'min:1|max:2'
         ];
     }
 

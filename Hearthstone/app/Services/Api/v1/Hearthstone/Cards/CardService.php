@@ -24,7 +24,7 @@ class CardService extends BaseCardService
      */
     public function getCardsWithPaginate()
     {
-        return Card::select($this->select)->where('cost', '!=', null)->orderBy('cost')->paginate($this->perPage);
+        return Card::select($this->select)->notSkinsAndOrderByCostName()->paginate($this->perPage);
     }
 
     /**
@@ -35,7 +35,7 @@ class CardService extends BaseCardService
     public function getCardsWithSearchParameters($parametersSearch)
     {
         // search - scopeSearch в модели Card
-        return Card::select($this->select)->where('cost', '!=', null)->search($parametersSearch)->paginate($this->perPage);
+        return Card::select($this->select)->search($parametersSearch)->paginate($this->perPage);
     }
 
     /**
@@ -45,7 +45,7 @@ class CardService extends BaseCardService
      */
     public function getCardsWithNameParameter($cardName)
     {
-        return Card::select($this->select)->where('cost', '!=', null)->where('name', 'LIKE', '%'.$cardName.'%')->
+        return Card::select($this->select)->notSkinsAndOrderByCostName()->where('name', 'LIKE', '%'.$cardName.'%')->
                 where('text', 'LIKE', '%'.$cardName.'%', 'or')->paginate($this->perPage);
     }
 }

@@ -22,9 +22,10 @@ class CardsOfDecksController extends BaseController
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cardOfHero(CardsOfDecks $request, $id)
+    public function cardsOfHero(CardsOfDecks $request, $id)
     {
-        $cardsOfHero = $this->cardsOfDecksService->getCardsOfHero($id)->appends($request->except('page'));
+        $format = $request->get('format'); // Формат колоды (Вольный или стандартный)
+        $cardsOfHero = $this->cardsOfDecksService->getCardsOfHero($id, $format)->appends($request->except('page'));
 
         return $this->sendResponse($cardsOfHero, "Карты героя");
     }
@@ -37,7 +38,8 @@ class CardsOfDecksController extends BaseController
      */
     public function cardsNeutrals(CardsOfDecks $request)
     {
-        $neutralsCards = $this->cardsOfDecksService->getNeutralsCards()->appends($request->except('page'));
+        $format = $request->get('format'); // Формат колоды (Вольный или стандартный)
+        $neutralsCards = $this->cardsOfDecksService->getNeutralsCards($format)->appends($request->except('page'));
 
         return $this->sendResponse($neutralsCards, "Карты нейтральные");
     }
@@ -49,7 +51,11 @@ class CardsOfDecksController extends BaseController
      */
     public function cardsOfCost(CardsOfDecks $request)
     {
-        $cardsOfCost = $this->cardsOfDecksService->getCardsOfCost($request->get('cost'), $request->get('hero_id'))->appends($request->except('page'));
+        $cost = $request->get('cost'); // Стоимость карт
+        $hero = $request->get('hero_id'); // Герой
+        $format = $request->get('format'); // Формат колоды (Вольный или стандартный);
+
+        $cardsOfCost = $this->cardsOfDecksService->getCardsOfCost($cost, $hero, $format)->appends($request->except('page'));
 
         return $this->sendResponse($cardsOfCost, "Карты героя со стоимостью");
     }

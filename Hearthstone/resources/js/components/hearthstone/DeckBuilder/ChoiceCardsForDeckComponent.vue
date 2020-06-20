@@ -81,7 +81,22 @@
                                     <img :src="'/images/hearthstone/heroesIcons/' + hero.name + '.png'" height="40" width="40" class="heroIcon">
                                     <div class="ml-3 h5 mb-0 text-border text-white">{{ trans.get('heroes.' + hero.name) }}</div>
                                 </span>
-                                <span class="h4 mt-3 font-weight-bold text-border text-white">{{ countCardsInDeck }} / 30</span>
+                                <span class="h4 mt-3 mb-0 font-weight-bold text-border text-white">{{ countCardsInDeck }} / 30</span>
+                                <div class="d-flex justify-content-center align-items-center" style="cursor: pointer" @click="changeFormatType" data-toggle="tooltip"
+                                     data-placement="bottom" title="Нажмите, чтобы сменить формат колоды">
+                                    <template v-if="deck.format === 2">
+                                        <div class="formatImage">
+                                            <img class="position-relative" style="top: 15px; width: 30px" src="/images/hearthstone/formatDeck/standard.png" alt="Стандартный">
+                                        </div>
+                                        <span class="ml-1 text-border font-weight-regular text-white" style="font-size: 1.1rem">Стандартная колода</span>
+                                    </template>
+                                    <template v-if="deck.format === 1">
+                                        <div class="formatImage">
+                                            <img class="position-relative" style="top: 15px; width: 30px" src="/images/hearthstone/formatDeck/wild.png" alt="Вольный">
+                                        </div>
+                                        <span class="ml-1 text-border font-weight-regular text-white" style="font-size: 1.1rem">Вольная колода</span>
+                                    </template>
+                                </div>
                             </span>
                             <div class="mt-5 text-center" v-if="countCardsInDeck === 0">
                                 <span class="h6">Выберите карты, чтобы добавить их в колоду.</span>
@@ -159,7 +174,7 @@
 <script>
     import image from "../../../mixins/cards/image";
     import pagination from "laravel-vue-pagination";
-    import { encode, FormatType } from "deckstrings";
+    import { encode, decode, FormatType } from "deckstrings";
 
     export default {
         name: "ChoiceCardsForDeckComponent",
@@ -172,10 +187,8 @@
                 codeDeck: '',
                 deck: {
                     cards: [],
-                    heroes: [
-                        parseInt(this.$route.params.id)
-                    ],
-                    format: null
+                    heroes: [],
+                    format: FormatType.FT_STANDARD
                 },
                 deckCost: 0,
                 isNeutrals: false,
@@ -197,7 +210,11 @@
             getCardForHero() {
                 this.error = this.cardsOfHero = this.neutralsCards = null;
                 this.loading = true;
-                axios.get('/api/cards/hero/' + this.heroId).then(response => {
+                axios.get('/api/cards/hero/' + this.heroId, {
+                    params: {
+                        format: this.deck.format
+                    }
+                }).then(response => {
                     this.cardsOfHero = response.data.data;
                     this.loading = this.error = false;
                 }).catch(error => {
@@ -208,7 +225,11 @@
             getNeutralsCards() {
                 this.error = this.cardsOfHero = this.neutralsCards = null;
                 this.loading = true;
-                axios.get('/api/cards/hero/neutrals').then(response => {
+                axios.get('/api/cards/hero/neutrals', {
+                    params: {
+                        format: this.deck.format
+                    }
+                }).then(response => {
                     this.neutralsCards = response.data.data;
                     this.loading = this.error = false;
                 }).catch(error => {
@@ -253,7 +274,6 @@
                     }
 
                     this.deckCost += this.getCostCard(image.rarity_id);
-                    console.log(this.deckCost);
 
                     // Проверяем существует ли карта в колоде
                     let cardExitsInDeck = this.cardsImg.find(function (value) {
@@ -281,14 +301,23 @@
             },
             removeCardFromDeck(index, event) {
                 if (this.cardsImg[index].count === 2) {
+                    this.deckCost -= this.getCostCard(this.cardsImg[index].rarity_id);
                     this.cardsImg[index].count = 1;
                     this.countCardsInDeck--;
-                    this.deckCost -= this.getCostCard(this.cardsImg[index].rarity_id);
                 } else {
+                    this.deckCost -= this.getCostCard(this.cardsImg[index].rarity_id);
                     this.cardsImg.splice(index, 1);
                     this.countCardsInDeck--;
-                    this.deckCost -= this.getCostCard(this.cardsImg[index].rarity_id);
                 }
+            },
+            changeFormatType() {
+                this.deck.format = this.deck.format === FormatType.FT_STANDARD ? this.deck.format = FormatType.FT_WILD : this.deck.format = FormatType.FT_STANDARD;
+                this.deck.cards = [];
+                this.cardsImg = [];
+                this.countCardsInDeck = 0;
+                this.deckCost = 0;
+                this.getCardForHero();
+                this.getNeutralsCards();
             },
             showCodeDeck() {
                 this.isCopy = false;
@@ -299,8 +328,6 @@
                 this.deck.cards.sort(function(a, b) {
                     return a[0] - b[0];
                 });
-
-                this.deck.format = FormatType.FT_STANDARD;
                 this.codeDeck = encode(this.deck);
             },
             cardsOfCostHero(cost) {
@@ -309,7 +336,8 @@
                 axios.get('/api/cards/hero/cost', {
                     params: {
                         cost: cost,
-                        hero_id: this.heroId
+                        hero_id: this.heroId,
+                        format: this.deck.format
                     }
                 }).then(response => {
                     this.cardsOfHero = response.data.data;
@@ -325,7 +353,8 @@
                 axios.get('/api/cards/hero/cost', {
                     params: {
                         cost: cost,
-                        hero_id: 4
+                        hero_id: 4,
+                        format: this.deck.format
                     }
                 }).then(response => {
                     this.neutralsCards = response.data.data;
@@ -353,6 +382,30 @@
                     default:
                         return 0;
                 }
+            },
+            setHeroesId(heroId) {
+                switch (parseInt(heroId)) {
+                    case 1:
+                        return 4;
+                    case 2:
+                        return 3;
+                    case 3:
+                        return 6;
+                    case 5:
+                        return 9;
+                    case 6:
+                        return 7;
+                    case 7:
+                        return 2;
+                    case 8:
+                        return 8;
+                    case 9:
+                        return 10;
+                    case 10:
+                        return 5;
+                    case 11:
+                        return 14;
+                }
             }
         },
         updated() {
@@ -372,6 +425,7 @@
             pagination
         },
         created() {
+            this.deck.heroes.push(this.setHeroesId(this.$route.params.id));
             this.loadingHero = true;
             this.hero = null;
             axios.get('/api/heroes/' + this.heroId).then(response => {
@@ -387,6 +441,14 @@
 </script>
 
 <style lang="scss" scoped>
+    .formatImage {
+        height: 65px;
+        width: 59px;
+        background-image: url("/images/hearthstone/formatDeck/block.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
 
     .deck__block {
         background-color: #e6e6e6;
