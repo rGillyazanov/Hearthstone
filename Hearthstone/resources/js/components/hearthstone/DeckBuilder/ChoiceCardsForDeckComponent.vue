@@ -392,13 +392,13 @@
                     case 3:
                         return 6;
                     case 5:
-                        return 9;
+                        return 893;
                     case 6:
-                        return 7;
+                        return 930
                     case 7:
-                        return 2;
+                        return 274;
                     case 8:
-                        return 8;
+                        return 1066;
                     case 9:
                         return 10;
                     case 10:
@@ -454,6 +454,7 @@
         background-color: #e6e6e6;
         border-left: 1px solid;
         border-right: 1px solid;
+        border-bottom: 1px solid;
     }
 
     .cost-text {
@@ -481,7 +482,7 @@
     }
 
     .card-type-active {
-        border-color: #fff700;
+        border-color: #ffffff;
     }
 
     .cards-container::-webkit-scrollbar-track

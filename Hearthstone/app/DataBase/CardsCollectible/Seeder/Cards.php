@@ -17,7 +17,10 @@ class Cards extends CardsDataFile
          */
         for ($i = 0; $i < count($this->data); $i++)
         {
-            Card::create([
+            Card::updateOrCreate([
+                'name' => isset($this->data[$i]->name) ? $this->data[$i]->name : '',
+                'dbfId' => isset($this->data[$i]->dbfId) ? $this->data[$i]->dbfId : null,
+            ], [
                 'name' => isset($this->data[$i]->name) ? $this->data[$i]->name : '',
                 'collectible' => isset($this->data[$i]->collectible) ? $this->data[$i]->collectible : 0,
                 'attack' => isset($this->data[$i]->attack) ? $this->data[$i]->attack : null,

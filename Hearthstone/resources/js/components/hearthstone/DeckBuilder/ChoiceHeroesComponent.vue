@@ -13,9 +13,9 @@
                     <template v-if="heroes && !loading">
                         <h1 class="text-center mx-auto pb-lg-5 mb-lg-0 font-weight-lighter">Выберите героя</h1>
                         <div class="col-lg-12 col-12 mx-auto">
-                            <div class="row d-flex justify-content-center heroes">
+                            <div class="row d-flex justify-content-center flex-wrap heroes">
                                 <template v-for="hero in heroes">
-                                    <div class="col-md-2 col-sm-12">
+                                    <div class="col-md-3 col-sm-12">
                                         <router-link :to="{name: 'CardsForDeck', params: {id: hero.id}}">
                                             <img class="img-fluid" :src="'/images/hearthstone/heroes/' + hero.name + '_static.png'" :alt="trans.get('heroes.' + hero.name)">
                                         </router-link>

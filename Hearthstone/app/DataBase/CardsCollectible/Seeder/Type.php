@@ -34,7 +34,9 @@ class Type extends CardsDataFile
          */
         foreach ($typeList as $type)
         {
-            TypeModel::create([
+            TypeModel::updateOrCreate([
+                'name' => $type
+            ],[
                 'name' => $type
             ]);
         }

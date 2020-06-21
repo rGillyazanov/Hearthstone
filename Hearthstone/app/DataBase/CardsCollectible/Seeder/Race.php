@@ -34,7 +34,9 @@ class Race extends CardsDataFile
          */
         foreach ($raceList as $race)
         {
-            RaceModel::create([
+            RaceModel::updateOrCreate([
+                'name' => $race
+            ],[
                 'name' => $race
             ]);
         }

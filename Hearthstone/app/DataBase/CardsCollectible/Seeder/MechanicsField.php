@@ -32,7 +32,10 @@ class MechanicsField extends CardsDataFile
 
                     $mechanicIdInDB = $this->checkFieldId('mechanics', 'name', $mechanics);
 
-                    CardMechanic::create([
+                    CardMechanic::updateOrCreate([
+                        'card_id' => $cardIdInDB,
+                        'mechanic_id' => $mechanicIdInDB
+                    ], [
                         'card_id' => $cardIdInDB,
                         'mechanic_id' => $mechanicIdInDB
                     ]);

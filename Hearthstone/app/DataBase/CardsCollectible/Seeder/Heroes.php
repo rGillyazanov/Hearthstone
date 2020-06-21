@@ -34,7 +34,9 @@ class Heroes extends CardsDataFile
          */
         foreach ($heroesList as $hero)
         {
-            Hero::create([
+            Hero::updateOrCreate([
+                'name' => $hero
+            ],[
                 'name' => $hero
             ]);
         }

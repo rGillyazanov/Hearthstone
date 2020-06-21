@@ -37,7 +37,9 @@ class Mechanics extends CardsDataFile
          */
         foreach ($mechanics_list as $mechanics)
         {
-            Mechanic::create([
+            Mechanic::updateOrCreate([
+                'name' => $mechanics
+            ],[
                 'name' => $mechanics
             ]);
         }

@@ -34,7 +34,9 @@ class Rarity extends CardsDataFile
          */
         foreach ($rarityList as $rarity)
         {
-            RarityModel::create([
+            RarityModel::updateOrCreate([
+                'name' => $rarity
+            ],[
                 'name' => $rarity
             ]);
         }

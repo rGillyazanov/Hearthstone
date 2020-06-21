@@ -34,7 +34,9 @@ class Packset extends CardsDataFile
          */
         foreach ($packsetList as $packSet)
         {
-            PackSetModel::create([
+            PackSetModel::updateOrCreate([
+                'name' => $packSet
+            ], [
                 'name' => $packSet
             ]);
         }
