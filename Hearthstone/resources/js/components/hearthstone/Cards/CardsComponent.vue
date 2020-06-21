@@ -1,24 +1,24 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="row d-flex flex-sm-wrap-reverse">
-                    <div class="col-lg-9 col-xs-12" v-if="loading">
+                <div class="row d-flex flex-wrap-reverse">
+                    <div class="col-lg-8 col-xs-12" v-if="loading">
                         <div class="row h-100 d-flex align-items-center justify-content-center">
                             <div class="spinner-border" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-xs-12 d-flex justify-content-center align-items-center" v-if="error">
+                    <div class="col-lg-8 col-xs-12 d-flex justify-content-center align-items-center" v-if="error">
                         <h1 class="alert alert-danger">Ошибка при получении карт</h1>
                     </div>
-                    <div class="col-lg-9 col-xs-12 d-flex flex-column" v-if="cards && !loading">
+                    <div class="col-lg-8 col-xs-12 d-flex flex-column" v-if="cards && !loading">
                         <div class="col-12 d-flex justify-content-center align-items-center" v-if="!isFind">
                             <h1 class="alert alert-danger">Карт не найдено</h1>
                         </div>
                         <div class="row">
-                            <div v-for="card in cards.data" :key="card.id" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center">
+                            <div v-for="card in cards.data" :key="card.id" class="col-xl-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center">
                                 <router-link :to="{name: 'Card', params: {id: card.id}}">
                                     <img :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="image-card-rounded">
                                 </router-link>
@@ -26,7 +26,7 @@
                         </div>
                         <pagination :limit="2" align="center" :data="cards" @pagination-change-page="getCards"></pagination>
                     </div>
-                    <div class="col-lg-3 col-xs-12 mt-4 mb-2">
+                    <div class="col-lg-4 col-12 mt-4 mb-2">
                         <cards-search-form @getSearchResult="cards = $event.data"></cards-search-form>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="position-sticky" style="top: 0">
         <div class="form-group search-form-fields">
             <card-search-name-component v-model.lazy="searchFields.cardName" @input="searchCardsOfName">
                 <span slot="label">Поиск по названию и описанию карты</span>

@@ -8,7 +8,7 @@ abstract class BaseCardService
      * Количество карт на страницу
      * @var int
      */
-    protected $perPage = 16;
+    protected $perPage = 24;
 
     /**
      * Данные, необходимые для отображения карт

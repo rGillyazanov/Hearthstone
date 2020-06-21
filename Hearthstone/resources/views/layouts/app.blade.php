@@ -18,7 +18,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container-fluid">
+            <div class="container">
                 <router-link class="navbar-brand" :to="{name: 'Home'}">
                     <img src="{{ asset('images/logo.png') }}" height="40" alt="Логотип">
                 </router-link>
