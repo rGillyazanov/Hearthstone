@@ -110,8 +110,6 @@
                         costCommon = 1600;
                         costGold = costCommon * 2;
                         break;
-                    default:
-                        console.log("Не удалось определить стоимость карты")
                 }
 
                 return {

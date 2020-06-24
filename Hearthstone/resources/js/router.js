@@ -4,6 +4,7 @@ import CardComponent from "./components/hearthstone/Card/CardComponent";
 import InformationComponent from "./components/hearthstone/Information/InformationComponent";
 import ChoiceHeroesComponent from "./components/hearthstone/DeckBuilder/ChoiceHeroesComponent";
 import ChoiceCardsForDeckComponent from "./components/hearthstone/DeckBuilder/ChoiceCardsForDeckComponent";
+import DeckComponent from "./components/hearthstone/Deck/DeckComponent";
 
 export default new VueRouter({
     routes: [
@@ -31,6 +32,11 @@ export default new VueRouter({
             path: '/deckbuilder/hero/:id',
             component: ChoiceCardsForDeckComponent,
             name: 'CardsForDeck'
+        },
+        {
+            path: '/deck/:code',
+            component: DeckComponent,
+            name: 'Deck'
         }
     ],
     mode: 'history'

@@ -21,6 +21,8 @@ Route::get('cards/hero/neutrals', 'Api\v1\Hearthstone\Cards\CardsOfDecksControll
 Route::get('cards/hero/{id}', 'Api\v1\Hearthstone\Cards\CardsOfDecksController@cardsOfHero')->name('deck.cardsOfHero');
 Route::get('card/{id}', 'Api\v1\Hearthstone\Cards\Card\CardController@index')->name('card');
 
+Route::get('deck/import', 'Api\v1\Hearthstone\Deck\DeckController@getCardsFromCodeDeck')->name('deck.import');
+
 Route::apiResource('heroes', 'Api\v1\Hearthstone\Heroes\HeroController')->only('index', 'show');
 Route::apiResource('rarities', 'Api\v1\Hearthstone\Rarities\RarityController')->only('index');
 Route::apiResource('types', 'Api\v1\Hearthstone\Types\TypeController')->only('index');
