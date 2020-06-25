@@ -3,11 +3,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 col-12" v-for="card in cards">
-                        <img :src="setImageCard(card.id_card)" height="387" width="256" :alt="card.name" class="image-card-rounded img-fluid mx-auto">
+                    <div class="col-lg-3 col-md-4 col-12 d-flex flex-column justify-content-center" v-for="card in cards">
+                        <img :src="setImageCard(card.id_card)" height="350" width="220" :alt="card.name" class="image-card-rounded img-fluid mx-auto">
                         <div class="d-flex justify-content-center align-items-center position-relative" style="bottom: 42px" v-if="card.count === 2">
-                            <img src="/images/hearthstone/icons/count_card_in_deck.png">
-                            <span class="d-block font-weight-regular position-absolute text-white text-border pb-2" style="font-size: 17px">x{{ card.count }}</span>
+                            <span class="d-block font-weight-regular position-absolute text-white text-border mt-3" style="font-size: 22px">x{{ card.count }}</span>
                         </div>
                     </div>
                 </div>
