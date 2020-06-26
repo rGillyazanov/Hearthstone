@@ -20,7 +20,7 @@
                         <div class="row">
                             <div v-for="card in cards.data" :key="card.id" class="col-xl-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center">
                                 <router-link :to="{name: 'Card', params: {id: card.id}}">
-                                    <img :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="image-card-rounded">
+                                    <img :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="card-scale image-card-rounded">
                                 </router-link>
                             </div>
                         </div>

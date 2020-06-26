@@ -15,12 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'Web\Hearthstone\Cards\CardsController@index')->name('home');
-Route::get('/card/{id}', 'Web\Hearthstone\Cards\CardsController@index')->name('card');
-Route::get('/information', 'Web\Hearthstone\Cards\CardsController@index')->name('information');
-Route::get('/deckbuilder', 'Web\Hearthstone\Cards\CardsController@index')->name('deck.builder');
-Route::get('/deckbuilder/hero/{id}', 'Web\Hearthstone\Cards\CardsController@index')->name('deck.builder.hero');
-Route::get('/deck/{deck}', 'Web\Hearthstone\Cards\CardsController@index')->name('deck');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('{any}', 'Web\Hearthstone\Cards\CardsController@index')->where('any','.*')->name('home');

@@ -53,7 +53,7 @@
                                          :data-cost="card.cost"
                                          :data-idcard="card.id_card"
                                          :data-name="card.name"
-                                         :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="img-fluid image-card-rounded" style="cursor: pointer">
+                                         :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="card-scale img-fluid image-card-rounded" style="cursor: pointer">
                                 </div>
                             </template>
                             <template v-else>
@@ -64,7 +64,7 @@
                                          :data-cost="card.cost"
                                          :data-idcard="card.id_card"
                                          :data-name="card.name"
-                                         :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="img-fluid image-card-rounded" style="cursor: pointer">
+                                         :src="setImageCard(card.id_card)" height="300" :alt="card.name" class="card-scale img-fluid image-card-rounded" style="cursor: pointer">
                                 </div>
                             </template>
                         </div>
@@ -225,6 +225,7 @@
                         })
                     }
 
+                    // Сортируем корты по стоимости и названию
                     this.cardsImg.sort(function (a, b) {
                         return (b.cost < a.cost) - (a.cost < b.cost) || (b.name < a.name) - (a.name < b.name);
                     });
