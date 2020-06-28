@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-12" v-if="!loadingHero">
-                <div class="d-flex justify-content-center mt-5">
+            <div class="col-12" v-if="!loadingCard">
+                <div class="d-flex justify-content-center mt-5" v-if="!loadingHero">
                     <h2 class="font-weight-regular text-center">
                         {{ trans.get('heroes.' + hero.name) }}:
                         <span v-if="format === 2">Стандарная колода</span>
@@ -11,15 +11,14 @@
                 </div>
                 <div class="row my-4">
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
-                        <deck-histogram color="red"></deck-histogram>
+                        <deck-histogram color="red" :cards="cards" attribute="health"></deck-histogram>
                     </div>
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
-                        <deck-histogram color="blue"></deck-histogram>
+                        <deck-histogram color="blue" :cards="cards" attribute="cost"></deck-histogram>
                     </div>
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
-                        <deck-histogram color="orange"></deck-histogram>
+                        <deck-histogram color="orange" :cards="cards" attribute="attack"></deck-histogram>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-12 d-flex flex-column justify-content-center"
@@ -50,6 +49,7 @@
                 codeDeck: this.$route.params['code'],
                 hero: null,
                 loadingHero: null,
+                loadingCard: null
             }
         },
         mixins: [image],
@@ -62,7 +62,6 @@
             getHero(hero) {
                 this.loadingHero = true;
                 this.hero = null;
-                console.log(hero)
                 axios.get('/api/heroes/' + this.setHeroesId(hero)).then(response => {
                     this.hero = response.data.data;
                     this.loadingHero = false;
@@ -82,6 +81,7 @@
                     cardsInDeck.push(item[0]);
                 });
 
+                this.loadingCard = true;
                 axios.get('/api/deck/import', {
                     params: {
                         'cardsId': JSON.stringify(cardsInDeck)
@@ -94,9 +94,11 @@
                                 this.$set(this.cards[index], 'count', card[1]);
                             }
                         })
-                    })
+                    });
+                    this.loadingCard = false;
                 }).catch(error => {
                     console.log(error);
+                    this.loadingCard = false;
                 })
             },
             setHeroesId(heroId) {

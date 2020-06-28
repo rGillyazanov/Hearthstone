@@ -11,7 +11,10 @@ class DeckService
         'cards.id',
         'name',
         'dbfId',
-        'rarity_id'
+        'rarity_id',
+        'cost',
+        'attack',
+        'health'
     ];
 
     /**
