@@ -1,17 +1,33 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-center mt-5" v-if="!loadingHero">
-                    <h2 class="font-weight-regular">
+            <div class="col-12" v-if="!loadingHero">
+                <div class="d-flex justify-content-center mt-5">
+                    <h2 class="font-weight-regular text-center">
                         {{ trans.get('heroes.' + hero.name) }}:
                         <span v-if="format === 2">Стандарная колода</span>
                         <span v-else>Вольная колода</span>
                     </h2>
                 </div>
+                <div class="row my-4">
+                    <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
+                        <deck-histogram color="red"></deck-histogram>
+                    </div>
+                    <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
+                        <deck-histogram color="blue"></deck-histogram>
+                    </div>
+                    <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
+                        <deck-histogram color="orange"></deck-histogram>
+                    </div>
+
+                </div>
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 col-12 d-flex flex-column justify-content-center" :class="{'two-card': card.count === 2}" v-for="card in cards">
-                        <img :src="setImageCard(card.id_card)" height="350" width="220" :alt="card.name" class="image-card-rounded img-fluid mx-auto">
+                    <div class="col-lg-3 col-md-4 col-12 d-flex flex-column justify-content-center"
+                         :class="{'two-card': card.count === 2}"
+                         v-for="card in cards">
+                        <img :src="setImageCard(card.id_card)" height="350" width="220"
+                             :alt="card.name"
+                             class="image-card-rounded img-fluid mx-auto">
                     </div>
                 </div>
             </div>
@@ -22,9 +38,11 @@
 <script>
     import {decode} from "deckstrings";
     import image from "../../../mixins/cards/image";
+    import DeckHistogram from "./DeckHistogram";
 
     export default {
         name: "DeckComponent",
+        components: {DeckHistogram},
         data() {
             return {
                 cards: null,
@@ -44,6 +62,7 @@
             getHero(hero) {
                 this.loadingHero = true;
                 this.hero = null;
+                console.log(hero)
                 axios.get('/api/heroes/' + this.setHeroesId(hero)).then(response => {
                     this.hero = response.data.data;
                     this.loadingHero = false;
@@ -88,6 +107,7 @@
                     case 3:
                     case 31:
                         return 2;
+                    case 41887:
                     case 813:
                     case 6:
                         return 3;
@@ -119,6 +139,12 @@
 
 <style scoped>
     .two-card {
-        background: url("/images/hearthstone/icons/x2.png") no-repeat 113px 292px;
+        background: url("/images/hearthstone/icons/x2.png") no-repeat 50% 292px;
+    }
+
+    @media (min-width: 768px) and (max-width: 1199.98px) {
+        .two-card {
+            background: url("/images/hearthstone/icons/x2.png") no-repeat 50% 279px
+        }
     }
 </style>
