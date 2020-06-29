@@ -8,24 +8,29 @@
                         <span v-if="format === 2">Стандарная колода</span>
                         <span v-else>Вольная колода</span>
                     </h2>
-                    <h5 class="d-flex justify-content-center align-items-center font-weight-regular my-4">
+                    <h5 class="d-flex flex-column justify-content-center align-items-center font-weight-regular my-4">
                         <span>Существ: {{ typesCounter.minions }}</span>
-                        <span class="ml-3">Заклинаний: {{ typesCounter.spells }}</span>
-                        <span class="ml-3">Оружия: {{ typesCounter.weapons }}</span>
+                        <span class="my-2">Заклинаний: {{ typesCounter.spells }}</span>
+                        <span>Оружия: {{ typesCounter.weapons }}</span>
                     </h5>
                 </div>
                 <div class="row my-4">
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
-                        <deck-histogram color="red" :cards="cards" attribute="health"></deck-histogram>
+                        <deck-histogram color="red" :cards="cards" attribute="health" title="Гистограмма здоровья"></deck-histogram>
                     </div>
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
-                        <deck-histogram color="blue" :cards="cards" attribute="cost"></deck-histogram>
+                        <deck-histogram color="blue" :cards="cards" attribute="cost" title="Гистограмма маны"></deck-histogram>
                     </div>
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
-                        <deck-histogram color="orange" :cards="cards" attribute="attack"></deck-histogram>
+                        <deck-histogram color="orange" :cards="cards" attribute="attack" title="Гистограмма атаки"></deck-histogram>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-12 my-4">
+                        <input type="text" class="form-control" :value="codeDeck" readonly>
+                    </div>
+                </div>
+                <div class="row mb-5">
                     <div class="col-lg-3 col-md-4 col-12 d-flex flex-column justify-content-center"
                          :class="{'two-card': card.count === 2}"
                          v-for="card in cards">
@@ -165,6 +170,11 @@
         },
         created() {
             this.getCardsOfDeck();
+        },
+        updated() {
+            this.$nextTick(() => {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
         }
     }
 </script>

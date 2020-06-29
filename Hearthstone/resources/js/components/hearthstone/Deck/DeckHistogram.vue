@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <div data-toggle="tooltip"
+         data-placement="top"
+         :title="title">
         <div :id="attribute" class="block" :style="{'border-color': color}" v-for="(blockNumber, index) in 8">
             <div class="background-histogram" :style="{'background-color': color}"></div>
             <div class="d-block position-absolute w-100 font-weight-regular text-center"
@@ -22,7 +24,8 @@
         props: {
             color: String,
             cards: Array,
-            attribute: String
+            attribute: String,
+            title: String
         },
         methods: {
             counters() {
