@@ -2,12 +2,17 @@
     <div class="container">
         <div class="row">
             <div class="col-12" v-if="!loadingCard">
-                <div class="d-flex justify-content-center mt-5" v-if="!loadingHero">
+                <div class="d-flex flex-column justify-content-center mt-5" v-if="!loadingHero">
                     <h2 class="font-weight-regular text-center">
                         {{ trans.get('heroes.' + hero.name) }}:
                         <span v-if="format === 2">Стандарная колода</span>
                         <span v-else>Вольная колода</span>
                     </h2>
+                    <h5 class="d-flex justify-content-center align-items-center font-weight-regular my-4">
+                        <span>Существ: {{ typesCounter.minions }}</span>
+                        <span class="ml-3">Заклинаний: {{ typesCounter.spells }}</span>
+                        <span class="ml-3">Оружия: {{ typesCounter.weapons }}</span>
+                    </h5>
                 </div>
                 <div class="row my-4">
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
@@ -49,7 +54,12 @@
                 codeDeck: this.$route.params['code'],
                 hero: null,
                 loadingHero: null,
-                loadingCard: null
+                loadingCard: null,
+                typesCounter: {
+                    weapons: 0,
+                    minions: 0,
+                    spells: 0
+                }
             }
         },
         mixins: [image],
@@ -96,6 +106,7 @@
                         })
                     });
                     this.loadingCard = false;
+                    this.getTypesCards();
                 }).catch(error => {
                     console.log(error);
                     this.loadingCard = false;
@@ -131,6 +142,25 @@
                     case 14:
                         return 11;
                 }
+            },
+            getTypesCards() {
+                this.cards.forEach(card => {
+                    if (card.count === 2) {
+                        if (card.type.name === "MINION")
+                            this.typesCounter.minions += 2;
+                        else if (card.type.name === "SPELL")
+                            this.typesCounter.spells += 2;
+                        else if (card.type.name === "WEAPON")
+                            this.typesCounter.weapons += 2;
+                    } else if (card.count === 1) {
+                        if (card.type.name === "MINION")
+                            this.typesCounter.minions++;
+                        else if (card.type.name === "SPELL")
+                            this.typesCounter.spells++;
+                        else if (card.type.name === "WEAPON")
+                            this.typesCounter.weapons++;
+                    }
+                })
             }
         },
         created() {

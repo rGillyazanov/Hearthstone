@@ -14,7 +14,8 @@ class DeckService
         'rarity_id',
         'cost',
         'attack',
-        'health'
+        'health',
+        'type_id'
     ];
 
     /**
@@ -27,6 +28,6 @@ class DeckService
     public function getCardsFromCodeDeck($cardsIdInDeck)
     {
         $idOfCards = explode(",", str_replace ('[', '', (str_replace (']', '', $cardsIdInDeck))));
-        return Card::whereIn('dbfId', $idOfCards)->NotSkinsAndOrderByCostName()->orderBy('dbfId')->get($this->select);
+        return Card::whereIn('dbfId', $idOfCards)->with('type')->NotSkinsAndOrderByCostName()->orderBy('dbfId')->get($this->select);
     }
 }
