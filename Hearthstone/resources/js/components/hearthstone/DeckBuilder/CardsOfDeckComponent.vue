@@ -28,7 +28,11 @@
             </div>
             <div class="cards-container overflow-auto px-2" style="height: 500px">
                 <div v-for="(card, index) in cardsImg" :key="index" :id="index">
-                    <div @click="removeCardFromDeck(index, $event)" class="card-tile" :aria-label="card.name" style="height: 34px; line-height: 34px; cursor: pointer">
+                    <div @click="removeCardFromDeck(index, $event)"
+                         class="card-tile"
+                         :aria-label="card.name"
+                         style="height: 34px; line-height: 34px; cursor: pointer"
+                    >
                         <div class="card-gem"
                              :class="{
                                         'rarity-legendary': card.rarity_id === 4,
@@ -95,6 +99,7 @@
 <script>
     import { encode, FormatType } from "deckstrings";
     import costCard from "../../../mixins/cards/costCard";
+    import image from "../../../mixins/cards/image";
 
     export default {
         name: "CardsOfDeckComponent",
@@ -123,7 +128,7 @@
                 this.countCards = newValue;
             }
         },
-        mixins: [costCard],
+        mixins: [costCard, image],
         methods: {
             changeFormatType() {
                 this.deck.format = this.deck.format === FormatType.FT_STANDARD ? this.deck.format = FormatType.FT_WILD : this.deck.format = FormatType.FT_STANDARD;

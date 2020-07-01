@@ -1,6 +1,6 @@
 <template>
-    <div data-toggle="tooltip"
-         data-placement="top"
+    <div data-placement="top"
+         data-toggle="tooltip"
          :title="title">
         <div :id="attribute" class="block" :style="{'border-color': color}" v-for="(blockNumber, index) in 8">
             <div class="background-histogram" :style="{'background-color': color}"></div>
