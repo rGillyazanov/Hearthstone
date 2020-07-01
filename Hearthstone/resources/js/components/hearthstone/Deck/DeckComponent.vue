@@ -77,6 +77,7 @@
             getHero(hero) {
                 this.loadingHero = true;
                 this.hero = null;
+                console.log(hero);
                 axios.get('/api/heroes/' + this.setHeroesId(hero)).then(response => {
                     this.hero = response.data.data;
                     this.loadingHero = false;
@@ -144,6 +145,7 @@
                     case 5:
                         return 10;
                     case 56550:
+                    case 60238:
                     case 14:
                         return 11;
                 }

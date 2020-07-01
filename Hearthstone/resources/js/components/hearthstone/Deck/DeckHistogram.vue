@@ -2,17 +2,27 @@
     <div data-placement="top"
          data-toggle="tooltip"
          :title="title">
-        <div :id="attribute" class="block" :style="{'border-color': color}" v-for="(blockNumber, index) in 8">
-            <div class="background-histogram" :style="{'background-color': color}"></div>
+        <div :id="attribute" class="block"
+             :style="{'border-color': color}"
+             v-for="(blockNumber, index) in histogramData">
+            <!-- Блок с количеством карт -->
+            <div class="d-block position-absolute w-100 font-weight-regular text-center"
+                 style="top: -25px" v-if="blockNumber.count !== 0">
+                {{ blockNumber.count }}
+            </div>
+            <!-- Блок с процентом заполнения карт -->
+            <div class="background-histogram"
+                 :style="{'background-color': color, 'height': 100 * blockNumber.count / maxAttributeValue + '%'}"></div>
+            <!-- Блок со стоимостью карт -->
             <div class="d-block position-absolute w-100 font-weight-regular text-center"
                  style="bottom: -25px"
                  v-if="index !== 7">
-                {{ blockNumber - 1 }}
+                {{ index }}
             </div>
             <div class="d-block position-absolute w-100 font-weight-regular text-right"
                  style="bottom: -25px"
                  v-else>
-                {{ blockNumber - 1 + '+' }}
+                {{ index + '+' }}
             </div>
         </div>
     </div>
@@ -21,6 +31,12 @@
 <script>
     export default {
         name: "DeckHistogram",
+        data() {
+            return {
+                histogramData: [],
+                maxAttributeValue: 0
+            }
+        },
         props: {
             color: String,
             cards: Array,
@@ -63,24 +79,22 @@
 
                 return count;
             },
-            setHistogram() {
-                let counter = this.counters();
+            getMaxValueOfHistogram() {
+                this.histogramData = this.counters();
 
                 let max = 0;
 
-                counter.forEach(item => {
+                this.histogramData.forEach(item => {
                     if (item.count > max) {
                         max = item.count;
                     }
                 })
 
-                counter.forEach((item) => {
-                    $("#"+ this.attribute + ":nth-child(" + (item.value + 1) + ") .background-histogram").css("height", 100 * (item.count / max) + "%")
-                })
+                this.maxAttributeValue = max;
             }
         },
-        mounted() {
-            this.setHistogram();
+        created() {
+            this.getMaxValueOfHistogram();
         }
     }
 </script>
