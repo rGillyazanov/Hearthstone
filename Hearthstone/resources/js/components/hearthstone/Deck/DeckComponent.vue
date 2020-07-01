@@ -31,12 +31,14 @@
                     </div>
                 </div>
                 <div class="row mb-5">
-                    <div class="col-lg-3 col-md-4 col-12 d-flex flex-column justify-content-center"
+                    <div class="col-lg-3 col-md-4 col-12"
                          :class="{'two-card': card.count === 2}"
                          v-for="card in cards">
-                        <img :src="setImageCard(card.id_card)" height="350" width="220"
-                             :alt="card.name"
-                             class="image-card-rounded img-fluid mx-auto">
+                        <router-link class="d-flex flex-column justify-content-center" :to="{name: 'Card', params: {id: card.id}}">
+                            <img :src="setImageCard(card.id_card)" height="350" width="220"
+                                 :alt="card.name"
+                                 class="image-card-rounded img-fluid mx-auto">
+                        </router-link>
                     </div>
                 </div>
             </div>

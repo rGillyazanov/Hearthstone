@@ -88,6 +88,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" @click="doCopy">Скопировать код колоды</button>
+                        <router-link class="btn btn-primary" data-dismiss="modal" :to="{name: 'Deck', params: {code: codeDeck}}">
+                            Отобразить колоду
+                        </router-link>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
