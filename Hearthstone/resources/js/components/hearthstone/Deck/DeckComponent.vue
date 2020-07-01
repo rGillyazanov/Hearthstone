@@ -88,7 +88,14 @@
                 });
             },
             getCardsOfDeck() {
-                let deck = decode(this.codeDeck);
+                let deck = {};
+
+                try {
+                    deck = decode(this.codeDeck);
+                }
+                catch (e) {
+                    this.$router.push({ name: 'Home' })
+                }
 
                 let cardsInDeck = [];
 

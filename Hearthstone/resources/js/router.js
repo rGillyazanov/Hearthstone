@@ -13,7 +13,16 @@ export default new VueRouter({
         { path: '/information', component: InformationComponent, name: 'Information' },
         { path: '/deckbuilder', component: ChoiceHeroesComponent, name: 'DeckBuilder' },
         { path: '/deckbuilder/hero/:id', component: ChoiceCardsForDeckComponent, name: 'CardsForDeck' },
-        { path: '/deck/:code', component: DeckComponent, name: 'Deck' }
+        {
+            path: '/deck/:code',
+            component: DeckComponent,
+            beforeRouteUpdate (to, from, next) {
+                to.params.code = from.params.code.replace("%2F", "/");
+                console.log(to.params.code);
+                next();
+            },
+            name: 'Deck'
+        }
     ],
     mode: 'history'
 })

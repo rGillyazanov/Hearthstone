@@ -13,10 +13,14 @@
                     <template v-if="heroes && !loading">
                         <import-deck-component></import-deck-component>
                         <h1 class="text-center mt-3 mx-auto pb-lg-5 mb-lg-0 font-weight-lighter">Или выберите героя</h1>
-                        <div class="col-lg-12 col-12 mx-auto">
+                        <div class="col-lg-12 col-12 mx-auto mb-5">
                             <div class="row d-flex justify-content-center flex-wrap heroes">
                                 <template v-for="hero in heroes">
-                                    <div class="col-md-2 col-sm-12">
+                                    <div class="col-md-3 col-sm-12">
+                                        <div class="position-absolute font-weight-regular text-center text-border text-white"
+                                            style="bottom: 100px; font-size: 1.5rem; width: 180px">
+                                            {{ trans.get('heroes.' + hero.name) }}
+                                        </div>
                                         <router-link :to="{name: 'CardsForDeck', params: {id: hero.id}}">
                                             <img class="img-fluid" :src="'/images/hearthstone/heroes/' + hero.name + '_static.png'" :alt="trans.get('heroes.' + hero.name)">
                                         </router-link>
@@ -48,8 +52,8 @@
         },
         methods: {
             hoverImages() {
-                $('.heroes div > a > img').hover(function () {
-                    $(this).attr('src', (i, val) => {
+                $('.heroes div').hover(function () {
+                    $(this).find('a > img').attr('src', (i, val) => {
                         return val.indexOf('static') !== -1 ? val.replace("static", "hover") : val.replace("hover", "static");
                     });
                 });
