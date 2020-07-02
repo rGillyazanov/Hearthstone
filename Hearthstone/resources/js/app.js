@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import router from "./router";
 import config from "./languages/config";
+import store from "./store";
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -17,5 +18,6 @@ Vue.component('card-component', CardComponent);
 
 const app = new Vue({
     el: '#app',
+    store,
     router
 });

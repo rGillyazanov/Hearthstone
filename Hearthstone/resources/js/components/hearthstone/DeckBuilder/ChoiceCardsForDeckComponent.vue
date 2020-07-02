@@ -38,7 +38,7 @@
                                     <div class="col-12 col-md-9 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0">
                                         <div class="row pr-md-5">
                                             <div id="cost" class="position-relative" @click="isNeutrals ? cardsOfCostNeutrals(mana - 1) : cardsOfCostHero(mana - 1)" v-for="mana in 11">
-                                                <span class="cost-text text-border">{{ mana - 1}}</span>
+                                                <span class="cost-text text-border">{{ mana - 1 }}</span>
                                                 <img :src="'/images/hearthstone/icons/mana_Input.png'" height="40" width="40">
                                             </div>
                                         </div>
