@@ -48,13 +48,13 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Вход</a>
-                            </li>
+                            <router-link tag="li" class="nav-item" :to="{name: 'Login'}">
+                                <a class="nav-link">Вход</a>
+                            </router-link>
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
-                                </li>
+                                <router-link tag="li" class="nav-item" :to="{name: 'Registration'}">
+                                    <a class="nav-link">Регистрация</a>
+                                </router-link>
                             @endif
                         @else
                             <li class="nav-item dropdown">

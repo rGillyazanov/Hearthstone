@@ -3,8 +3,10 @@ import  Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-    state: {
+import login from "./modules/login"
 
+export default new Vuex.Store({
+    modules: {
+        login
     }
 })

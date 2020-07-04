@@ -12,7 +12,5 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Auth::routes();
-
 Route::get('{any}', 'Web\Hearthstone\Cards\CardsController@index')->where('any','.*')->name('home');
+Auth::routes();
