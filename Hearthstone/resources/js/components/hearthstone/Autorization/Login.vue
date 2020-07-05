@@ -8,19 +8,16 @@
                     <div class="card-body">
                         <div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input type="email" class="form-control" v-model="user.email" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                <label for="email">Email address:</label>
+                                <input type="email" v-model="form.email" class="form-control" id="email" />
+                                <span class="text-danger" v-if="errors.email">{{ errors.email[0] }}</span>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Пароль</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" v-model="user.password">
+                                <label for="password">Password:</label>
+                                <input type="password" v-model="form.password" class="form-control" id="password" />
+                                <span class="text-danger" v-if="errors.password">{{ errors.password[0] }}</span>
                             </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Запомнить</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary" @click="login">Войти</button>
+                            <button @click.prevent="login" class="btn btn-primary btn-block">Login</button>
                         </div>
                     </div>
                 </div>
@@ -32,16 +29,20 @@
 <script>
     export default {
         name: "Login",
-        computed: {
-            user: {
-                get() {
-                    return this.$store.state.login.user;
-                }
-            }
+        data() {
+            return {
+                form: {
+                    email: "",
+                    password: ""
+                },
+                errors: []
+            };
         },
         methods: {
             login() {
-                this.$store.dispatch('login/userLogin', this.user)
+                this.$store.dispatch('login/login', this.form).then(() => {
+                    this.$router.push({name: 'Home'})
+                })
             }
         }
     }

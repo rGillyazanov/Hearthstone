@@ -1,23 +1,42 @@
 const state = {
-    user: {
-        email: "",
-        password: ""
-    }
-}
+    auth: {
+        login: false,
+        user: [],
+    },
+};
 
-const getters = {};
-const mutations = {};
+const getters = {
+    isLoggedIn(state) {
+        return state.auth.login;
+    }
+};
+
+const mutations = {
+    LOGIN(state, status) {
+        state.auth.login = status;
+        state.auth.user = [];
+    },
+
+    AUTH_USER(state, user) {
+        state.auth.user = user;
+    }
+};
+
 const actions = {
-    userLogin({}, user) {
-        axios.post("/api/user/login", {
-            email: user.email,
-            password: user.password
+    login({commit}, form) {
+        axios.post('/api/user/login', {
+            email: form.email,
+            password: form.password
         }).then(response => {
-            console.log(response.data)
-            localStorage.setItem("token", response.data.accessToken)
-            axios.default.headers.common["Authorization"] = "Bearer " + localStorage.getItem("token");
-            window.location.replace('/');
+            localStorage.setItem("token", response.data.accessToken);
+            commit("LOGIN", true);
+            commit("AUTH_USER", response.data.user);
         })
+        .catch(error => {
+            if (error.response.status === 422) {
+                this.errors = error.response.data.errors;
+            }
+        });
     }
 };
 
