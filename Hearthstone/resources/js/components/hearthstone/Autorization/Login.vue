@@ -42,7 +42,11 @@
             login() {
                 this.$store.dispatch('login/login', this.form).then(() => {
                     this.$router.push({name: 'Home'})
-                })
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                });
             }
         }
     }

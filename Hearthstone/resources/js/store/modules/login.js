@@ -1,13 +1,16 @@
-const state = {
+const state = () => ({
     auth: {
         login: false,
         user: [],
-    },
-};
+    }
+});
 
 const getters = {
     isLoggedIn(state) {
         return state.auth.login;
+    },
+    user(state) {
+        return state.auth.user;
     }
 };
 
@@ -32,16 +35,10 @@ const actions = {
             commit("LOGIN", true);
             commit("AUTH_USER", response.data.user);
         })
-        .catch(error => {
-            if (error.response.status === 422) {
-                this.errors = error.response.data.errors;
-            }
-        });
     }
 };
 
 export default {
-    namespaced: true,
     state,
     getters,
     mutations,

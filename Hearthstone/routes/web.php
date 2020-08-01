@@ -13,4 +13,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('{any}', 'Web\Hearthstone\Cards\CardsController@index')->where('any','.*')->name('home');
-Auth::routes();

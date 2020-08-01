@@ -10,7 +10,7 @@ abstract class CardsDataFile
      * Путь до json файла со списком карт
      * @var string
      */
-    protected $path = "https://api.hearthstonejson.com/v1/51510/ruRU/cards.collectible.json";
+    protected $path = "https://api.hearthstonejson.com/v1/54613/ruRU/cards.collectible.json";
 
     /**
      * Массив данных из json файла

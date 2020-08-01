@@ -9,7 +9,7 @@ import Login from "./components/hearthstone/Autorization/Login";
 import Registration from "./components/hearthstone/Autorization/Registration";
 
 function isLoggedIn() {
-    return localStorage.getItem("token");
+    return localStorage.getItem("token")
 }
 
 const router = new VueRouter({
@@ -17,7 +17,7 @@ const router = new VueRouter({
         { path: '/', component: CardsComponent, name: 'Home' },
         { path: '/card/:id', component: CardComponent, name: 'Card' },
         { path: '/information', component: InformationComponent, name: 'Information' },
-        { path: '/deckbuilder', component: ChoiceHeroesComponent, name: 'DeckBuilder', meta: { authOnly: true } },
+        { path: '/deckbuilder', component: ChoiceHeroesComponent, name: 'DeckBuilder' },
         { path: '/deckbuilder/hero/:id', component: ChoiceCardsForDeckComponent, name: 'CardsForDeck' },
         { path: '/deck/:code', component: DeckComponent, name: 'Deck' },
         { path: '/login', component: Login, name: 'Login', meta: { guestOnly: true } },
@@ -30,8 +30,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.authOnly)) {
         if (!isLoggedIn()) {
             next({
-                name: "Login",
-                query: { redirect: to.fullPath }
+                name: "Login"
             });
         } else {
             next();
@@ -39,14 +38,13 @@ router.beforeEach((to, from, next) => {
     } else if (to.matched.some(record => record.meta.guestOnly)) {
         if (isLoggedIn()) {
             next({
-                name: "Home",
-                query: { redirect: to.fullPath }
+                name: "Home"
             });
         } else {
             next();
         }
     } else {
-        next();
+        next(); // make sure to always call next()!
     }
 });
 
