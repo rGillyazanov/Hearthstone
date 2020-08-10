@@ -10,7 +10,7 @@ class Race extends CardsDataFile
     /**
      * Заполняет табилцу Race всеми рассами, которые доступны в json файле
      */
-    public function insertRace()
+    public function insert()
     {
         $raceList = [];
 

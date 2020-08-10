@@ -27,7 +27,12 @@ class DeckService
      */
     public function getCardsFromCodeDeck($cardsIdInDeck)
     {
+        /**
+         * Разбиваем строку состоящую из Id полученных карт типа:
+         * [123, 321, 332] в массив.
+         */
         $idOfCards = explode(",", str_replace ('[', '', (str_replace (']', '', $cardsIdInDeck))));
+
         return Card::whereIn('dbfId', $idOfCards)->with('type')->NotSkinsAndOrderByCostName()->orderBy('dbfId')->get($this->select);
     }
 }

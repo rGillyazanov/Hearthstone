@@ -10,7 +10,7 @@ class Mechanics extends CardsDataFile
     /**
      * Заполняет табилцу Mechanics всеми механиками карт, которые доступны в json файле
      */
-    public function insertMechanics()
+    public function insert()
     {
         $mechanics_list = [];
 

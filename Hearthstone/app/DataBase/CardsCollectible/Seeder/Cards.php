@@ -10,7 +10,7 @@ class Cards extends CardsDataFile
     /**
      * Заполняет таблицу данными из json файла
      */
-    public function insertCards()
+    public function insert()
     {
         /**
          * Проходим по всем записям из json файла и заполняем поля таблицы

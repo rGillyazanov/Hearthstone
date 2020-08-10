@@ -10,7 +10,7 @@ class MechanicsField extends CardsDataFile
     /**
      * Заполняет табилцу card_mechanics всеми механиками карт, которые доступны в json файле
      */
-    public function insertMechanicsField()
+    public function insert()
     {
         /**
          * Ищем все механики карт

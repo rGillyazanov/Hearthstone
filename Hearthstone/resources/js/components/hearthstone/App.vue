@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <router-link class="navbar-brand" :to="{name: 'Home'}">
-                    <img src="images/logo.png" height="40" alt="Логотип">
+                    <img src="/images/logo.png" height="40" alt="Логотип">
                 </router-link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
                     <span class="navbar-toggler-icon"></span>

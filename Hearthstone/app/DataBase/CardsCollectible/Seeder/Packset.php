@@ -10,7 +10,7 @@ class Packset extends CardsDataFile
     /**
      * Заполняет табилцу Packset всеми наборами, которые доступны в json файле
      */
-    public function insertPackset()
+    public function insert()
     {
         $packsetList = [];
 

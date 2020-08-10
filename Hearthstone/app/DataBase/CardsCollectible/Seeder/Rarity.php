@@ -10,7 +10,7 @@ class Rarity extends CardsDataFile
     /**
      * Заполняет табилцу Rarity всеми качествами, которые доступны в json файле
      */
-    public function insertRarity()
+    public function insert()
     {
         $rarityList = [];
 

@@ -30,15 +30,15 @@
                             <footer class="blockquote-footer">{{ card.name }}</footer>
                         </blockquote>
                         <p v-html="cardText" class="font-weight-regular"></p>
-                        <div class="font-weight-regular mt-2" v-if="card.health || card.attack || card.cost">
+                        <div class="font-weight-regular mt-2" v-if="card.health || card.attack || card.cost || card.rarity_id !== 5">
                             <h5>Характеристики</h5>
-                            <div v-if="card.health" class="health d-flex align-items-center">
+                            <div v-if="card.health !== null" class="health d-flex align-items-center">
                                 <img src="/images/hearthstone/icons/Health.png" alt="Здоровье"><span class="ml-2">{{ card.health }}</span>
                             </div>
-                            <div v-if="card.attack" class="attack d-flex align-items-center">
+                            <div v-if="card.attack !== null" class="attack d-flex align-items-center">
                                 <img src="/images/hearthstone/icons/Attack.png" alt="Атака"><span class="ml-2">{{ card.attack }}</span>
                             </div>
-                            <div v-if="card.cost" class="attack d-flex align-items-center">
+                            <div v-if="card.cost !== null" class="attack d-flex align-items-center">
                                 <img src="/images/hearthstone/icons/Mana.png" alt="Мана"><span class="ml-2">{{ card.cost }}</span>
                             </div>
                             <div v-if="card.rarity_id !== 5" class="attack d-flex align-items-center">
@@ -53,22 +53,42 @@
                         <div>
                             <h5 class="mt-3">Параметры</h5>
                             <div class="card-parameters d-flex flex-column">
-                                <div v-if="card.hero">Класс: <span class="ml-2">{{ trans.get('heroes.' + card.hero.name) }}</span></div>
+                                <div v-if="card.heroes.length !== 0">
+                                    Класс:
+                                    <span class="ml-2">{{ cardHeroes }}</span>
+                                </div>
+                                <div v-else-if="card.hero">
+                                    Класс: <span class="ml-2">{{ trans.get('heroes.' + card.hero.name) }}</span>
+                                </div>
                                 <div v-if="card.type">Тип: <span class="ml-2">{{ trans.get('types.' + card.type.name) }}</span></div>
                                 <div v-if="card.race">Раса: <span class="ml-2">{{ trans.get('races.' + card.race.name) }}</span></div>
                                 <div v-if="card.rarity">Качество: <span class="ml-2">{{ trans.get('rarities.' + card.rarity.name) }}</span></div>
                                 <div v-if="card.packset">Набор: <span class="ml-2">{{ trans.get('packsets.' + card.packset.name) }}</span></div>
                             </div>
-                            <h5 class="mt-3" v-if="card.mechanics.length !== 0">Механики</h5>
-                            <div class="d-flex flex-column">
-                                <div v-for="mechanic in card.mechanics">
+                            <template v-if="card.mechanics.length !== 0">
+                                <h5 class="mt-3">Механики</h5>
+                                <div class="d-flex flex-column">
+                                    <div v-for="mechanic in card.mechanics">
                                     <span data-toggle="tooltip"
                                           data-placement="bottom"
                                           :title="trans.get('mechanics.' + mechanic.name + '.description')">
                                         {{ trans.get('mechanics.' + mechanic.name + '.name') }}
                                     </span>
+                                    </div>
                                 </div>
-                            </div>
+                            </template>
+                            <template v-if="card.tags.length !== 0">
+                                <h5 class="mt-3">Дополнительные механики</h5>
+                                <div class="d-flex flex-column">
+                                    <div v-for="tag in card.tags">
+                                    <span data-toggle="tooltip"
+                                          data-placement="bottom"
+                                          :title="trans.get('tags.' + tag.name + '.description')">
+                                        {{ trans.get('tags.' + tag.name + '.name') }}
+                                    </span>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -129,6 +149,15 @@
             },
             cardFlavor() {
                 return this.card.flavor != null ? this.card.flavor.replace("#", "").replace("$", "").replace("[x]", "") : '';
+            },
+            cardHeroes() {
+                let listOfHero = [];
+
+                this.card.heroes.forEach(item => {
+                    listOfHero.push(this.trans.get('heroes.' + item.name))
+                });
+
+                return listOfHero.join(', ')
             }
         },
         mixins: [image],

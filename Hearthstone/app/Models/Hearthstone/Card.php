@@ -27,7 +27,10 @@ class Card extends Model
             $mechanics_id = $parameters['mechanics'];
             unset($parameters['mechanics']);
 
-            $query = CardMechanic::select(['cards.id', 'id_card', 'name'])->join('cards', 'cards.id', '=', 'card_mechanic.card_id')->where('mechanic_id', $mechanics_id);
+            $query = CardMechanic::select(['cards.id', 'id_card', 'name'])
+                ->join('cards', 'cards.id', '=', 'card_mechanic.card_id')
+                ->where('mechanic_id', $mechanics_id);
+
             SearchCardService::queryWhereKeyValue($query, $parameters)->NotSkinsAndOrderByCostName();
 
             return $query;
@@ -44,9 +47,31 @@ class Card extends Model
     public function scopeStandard($query)
     {
         // Наборы стандартных карт
-        $packSets = [6, 4, 24, 11, 22, 10, 8, 5];
+        $packSets = [6, 4, 24, 11, 22, 10, 8, 5, 21];
 
         return $query->whereIn('packset_id', $packSets);
+    }
+
+    /**
+     * Возвращает коллекцию карт героя.
+     *
+     * @param $query
+     * @param $heroId
+     * @return mixed
+     */
+    public function scopeHeroes($query, $heroId)
+    {
+        $query->leftJoin('card_hero', 'cards.id', '=', 'card_hero.card_id');
+
+        if ($heroId == 4) {
+            $query->where('card_hero.card_id', '=', null);
+        }
+
+        return $query->where(function($query) use ($heroId) {
+                $query->where('card_hero.hero_id', $heroId)
+                    ->orWhere('cards.hero_id', $heroId);
+            })
+            ->distinct();
     }
 
     /**
@@ -112,5 +137,23 @@ class Card extends Model
     public function mechanics()
     {
         return $this->belongsToMany(Mechanic::class);
+    }
+
+    /**
+     * Получить все теги у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    /**
+     * Получить всех героев у текущей карты
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function heroes()
+    {
+        return $this->belongsToMany(Hero::class);
     }
 }

@@ -4,7 +4,7 @@ namespace App\DataBase\CardsCollectible;
 
 use Illuminate\Support\Facades\DB;
 
-abstract class CardsDataFile
+abstract class CardsDataFile implements ISeederCards
 {
     /**
      * Путь до json файла со списком карт
@@ -55,5 +55,10 @@ abstract class CardsDataFile
         }
 
         return null;
+    }
+
+    public function insert()
+    {
+        static::insert();
     }
 }

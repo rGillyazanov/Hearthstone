@@ -27,22 +27,29 @@ class CardsOfDecksService extends BaseCardService
     public function getCardsOfHero($id, $format)
     {
         if ($format == 2)
-            return Card::where('hero_id', $id)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+            return Card::query()->heroes($id)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
 
-        return Card::where('hero_id', $id)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+        return Card::query()->heroes($id)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
     }
 
     /**
      * Получаем коллекцию всех карт для отображения с пагинацией.
      * @param $format 1 - Вольный , 2 - Стандартный
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getNeutralsCards($format)
     {
         if ($format == 2)
-            return Card::where('hero_id', 4)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+            return Card::where('cards.hero_id', 4)
+                ->leftJoin('card_hero', 'cards.id', '=', 'card_hero.card_id')
+                ->where('card_hero.card_id', '=', null)
+                ->standard()->notSkinsAndOrderByCostName()
+                ->paginate($this->perPage, $this->select);
 
-        return Card::where('hero_id', 4)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+        return Card::where('cards.hero_id', 4)
+            ->leftJoin('card_hero', 'cards.id', '=', 'card_hero.card_id')
+            ->where('card_hero.card_id', '=', null)
+            ->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
     }
 
     /**
@@ -56,15 +63,15 @@ class CardsOfDecksService extends BaseCardService
     {
         // Стандартные карты со стоимостью >= 10
         if ($cost == 10 && $format == 2)
-            return Card::where('cost', '>=', $cost)->where('hero_id', $hero_id)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+            return Card::where('cost', '>=', $cost)->heroes($hero_id)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
         // Стандартные карты со стоимостью < 10
         else if ($cost < 10 && $format == 2)
-            return Card::where('cost', $cost)->where('hero_id', $hero_id)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+            return Card::where('cost', $cost)->heroes($hero_id)->standard()->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
         // Вольные карты со стоимостью >= 10
         else if ($cost == 10 && $format == 1)
-            return Card::where('cost', '>=', $cost)->where('hero_id', $hero_id)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+            return Card::where('cost', '>=', $cost)->heroes($hero_id)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
 
         // Вольные карты со стоимостью < 10
-        return Card::where('cost', $cost)->where('hero_id', $hero_id)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
+        return Card::where('cost', $cost)->heroes($hero_id)->notSkinsAndOrderByCostName()->paginate($this->perPage, $this->select);
     }
 }

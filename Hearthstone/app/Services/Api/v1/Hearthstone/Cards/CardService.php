@@ -13,7 +13,7 @@ class CardService extends BaseCardService
      */
     public function getCard($id)
     {
-        $relations = ['mechanics', 'hero', 'rarity', 'type', 'race', 'packset'];
+        $relations = ['mechanics', 'hero', 'rarity', 'type', 'race', 'packset', 'tags', 'heroes'];
 
         return Card::with($relations)->where('id', $id)->first();
     }
@@ -34,7 +34,6 @@ class CardService extends BaseCardService
      */
     public function getCardsWithSearchParameters($parametersSearch)
     {
-        // search - scopeSearch в модели Card
         return Card::select($this->select)->search($parametersSearch)->paginate($this->perPage);
     }
 

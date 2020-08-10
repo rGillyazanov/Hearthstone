@@ -10,7 +10,7 @@ class Type extends CardsDataFile
     /**
      * Заполняет табилцу Type всеми типами карт, которые доступны в json файле
      */
-    public function insertType()
+    public function insert()
     {
         $typeList = [];
 

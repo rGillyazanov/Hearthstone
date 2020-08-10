@@ -10,7 +10,7 @@ class Heroes extends CardsDataFile
     /**
      * Заполняет табилцу Heroes всеми героями, которые доступны в json файле
      */
-    public function insertHeroes()
+    public function insert()
     {
         $heroesList = [];
 
