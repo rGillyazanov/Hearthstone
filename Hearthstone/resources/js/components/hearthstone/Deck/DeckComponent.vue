@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12" v-if="!loadingCard">
                 <div class="d-flex flex-column justify-content-center mt-5" v-if="!loadingHero">
-                    <h2 class="font-weight-regular text-center">
+                    <h2 class="font-weight-regular text-center text-border text-white">
                         {{ trans.get('heroes.' + hero.name) }}:
                         <span v-if="format === 2">Стандарная колода</span>
                         <span v-else>Вольная колода</span>
@@ -24,6 +24,9 @@
                     <div class="col-lg-4 col-12 mb-lg-0 mb-5 d-flex justify-content-center">
                         <deck-histogram color="orange" :cards="cards" attribute="attack" title="Гистограмма атаки"></deck-histogram>
                     </div>
+                </div>
+                <div class="col-12">
+                    <h5 class="text-center">Стоимость колоды: {{ costOfDeck }}</h5>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-12 my-4">
@@ -50,6 +53,7 @@
     import {decode} from "deckstrings";
     import image from "../../../mixins/cards/image";
     import DeckHistogram from "./DeckHistogram";
+    import costCard from "../../../mixins/cards/costCard";
 
     export default {
         name: "DeckComponent",
@@ -60,6 +64,7 @@
                 format: null,
                 codeDeck: this.$route.params['code'],
                 hero: null,
+                costOfDeck: 0,
                 loadingHero: null,
                 loadingCard: null,
                 typesCounter: {
@@ -69,7 +74,7 @@
                 }
             }
         },
-        mixins: [image],
+        mixins: [image, costCard],
         watch: {
             $route (toRoute) {
                 this.codeDeck = toRoute.params['code']
@@ -83,7 +88,7 @@
                 axios.get('/api/heroes/' + this.setHeroesId(hero)).then(response => {
                     this.hero = response.data.data;
                     this.loadingHero = false;
-                }).catch(error => {
+                }).catch(() => {
                     this.loadingHero = false;
                 });
             },
@@ -122,6 +127,7 @@
                     });
                     this.loadingCard = false;
                     this.getTypesCards();
+                    this.costOfDeck = this.getCostOfDeck();
                 }).catch(error => {
                     console.log(error);
                     this.loadingCard = false;
@@ -177,6 +183,18 @@
                             this.typesCounter.weapons++;
                     }
                 })
+            },
+            getCostOfDeck() {
+                let cost = 0;
+
+                this.cards.forEach(item => {
+                    // Исключаем из стоимости карты Галакрондов (тип - HERO)
+                    if (!(item.name.includes("Галакронд") && item.type.name === "HERO")) {
+                        cost += this.getCostCard(item.rarity_id) * item.count;
+                    }
+                });
+
+                return cost;
             }
         },
         created() {

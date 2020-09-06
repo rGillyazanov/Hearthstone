@@ -3,7 +3,7 @@ export default {
         getCostCard(rarity_id) {
             switch (rarity_id) {
                 case 1:
-                    return  50;
+                    return  40;
                 case 2:
                     return 100;
                 case 3:

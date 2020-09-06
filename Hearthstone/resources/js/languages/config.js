@@ -1,4 +1,6 @@
 import Lang from 'lang.js';
+
+// Выполните команду php artisan export:messages-flat
 import hearthstone from "./hearthstone";
 const messages = hearthstone;
 
